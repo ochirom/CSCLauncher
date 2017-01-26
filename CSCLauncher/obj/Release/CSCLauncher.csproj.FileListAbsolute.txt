@@ -1,0 +1,8 @@
+c:\users\rochirov\documents\visual studio 2015\Projects\CSCLauncher\CSCLauncher\bin\Release\CSCLauncher.exe.config
+c:\users\rochirov\documents\visual studio 2015\Projects\CSCLauncher\CSCLauncher\bin\Release\CSCLauncher.exe
+c:\users\rochirov\documents\visual studio 2015\Projects\CSCLauncher\CSCLauncher\bin\Release\CSCLauncher.pdb
+c:\users\rochirov\documents\visual studio 2015\Projects\CSCLauncher\CSCLauncher\obj\Release\CSCLauncher.Properties.Resources.resources
+c:\users\rochirov\documents\visual studio 2015\Projects\CSCLauncher\CSCLauncher\obj\Release\CSCLauncher.csproj.GenerateResource.Cache
+c:\users\rochirov\documents\visual studio 2015\Projects\CSCLauncher\CSCLauncher\obj\Release\CSCLauncher.exe
+c:\users\rochirov\documents\visual studio 2015\Projects\CSCLauncher\CSCLauncher\obj\Release\CSCLauncher.pdb
+C:\Users\rochirov\Documents\Visual Studio 2015\Projects\CSCLauncher\CSCLauncher\obj\Release\CSCLauncher.MainForm.resources

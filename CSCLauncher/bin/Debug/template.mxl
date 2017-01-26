@@ -1,0 +1,5 @@
+﻿login $admin$ identified by $password$ on $server$;
+execute calculation '
+$calcscript$
+' on $appname$.$cubename$;
+logout ;

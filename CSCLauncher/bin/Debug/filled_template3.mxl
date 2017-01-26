@@ -1,0 +1,524 @@
+﻿login admin identified by Welcome1 on mow03-hyp01dl;
+execute calculation '
+SET MSG NONE;
+SET UPDATECALC OFF;
+SET AGGMISSG ON;
+SET EMPTYMEMBERSETS ON;
+SET FRMLBOTTOMUP ON;
+SET CREATEBLOCKONEQ OFF;
+SET CACHE ALL;
+SET CACHE HIGH;
+SET LOCKBLOCK HIGH;
+SET CALCPARALLEL 1;
+SET CALCTASKDIMS 1;
+SET FRMLRTDYNAMIC OFF;
+
+
+FIX(rm_na
+    FY17
+    SCN_BUD
+    VR_WORK
+    @RELATIVE(YearTotal,0))
+FIX(BS0004 BS0005
+        @RELATIVE(acc_BS0000000000,0)
+        asset_na
+        loc_1000000000T loc_2000000000T
+        iloc_na
+        icc_NA
+        cc_011701
+        view_na
+        Product_NA)
+        CLEARDATA lv_calc;
+    ENDFIX
+    
+    FIX(BS0004 BS0005
+        @RELATIVE(acc_BS0000000000,0)
+        asset_na
+        loc_1000000000T loc_2000000000T
+        iloc_na
+        icc_NA
+        view_na
+        Product_NA)
+        DATACOPY lv_input->cc_011702 TO lv_calc->cc_011701; 
+    ENDFIX    
+
+FIX(Asset_total
+        iloc_0000000000
+        loc_1000000000 loc_2000000000
+        icc_000000
+        сс_capex
+        lv_calc
+        View_CAPEX0001
+        Project_00000
+        acc_440000000)
+        share0001(
+            BS0004->acc_BS0301070100->asset_na->@MEMBER(@CONCATENATE(@NAME(@CURRMBR(Location)),"T"))->iloc_na->icc_NA->view_na->cc_011701->Product_NA = share0001;
+        )
+        share0002(
+            BS0005->acc_BS0301070100->asset_na->@MEMBER(@CONCATENATE(@NAME(@CURRMBR(Location)),"T"))->iloc_na->icc_NA->view_na->cc_011701->Product_NA = share0002;
+        )
+        share0003(
+            BS0004->acc_BS0301070200->asset_na->@MEMBER(@CONCATENATE(@NAME(@CURRMBR(Location)),"T"))->iloc_na->icc_NA->view_na->cc_011701->Product_NA = share0003;
+        )
+        share0004(
+            BS0005->acc_BS0301070200->asset_na->@MEMBER(@CONCATENATE(@NAME(@CURRMBR(Location)),"T"))->iloc_na->icc_NA->view_na->cc_011701->Product_NA = share0004;
+        )
+    ENDFIX
+    
+FIX(Asset_NA
+        iloc_1000000000 iloc_2000000000
+        Farm_1000000000 Farm_2000000000
+        icc_000000
+        cc_ftrexp
+        lv_calc
+        View_na
+        Product_NA
+        acc_450000000)
+        ftrexp0002(
+            BS0004->acc_BS0202070000->asset_na->@MEMBER(@CONCATENATE(@SUBSTRING(@NAME(@CURRMBR(i_Location)),1),"T"))->iloc_na->icc_NA->cc_011701 = 
+                BS0004->acc_BS0202070000->asset_na->@MEMBER(@CONCATENATE(@SUBSTRING(@NAME(@CURRMBR(i_Location)),1),"T"))->iloc_na->icc_NA->cc_011701
+                + ftrexp0002;
+        )
+        ftrexp0003(
+            BS0005->acc_BS0202070000->asset_na->@MEMBER(@CONCATENATE(@SUBSTRING(@NAME(@CURRMBR(i_Location)),1),"T"))->iloc_na->icc_NA->cc_011701 = 
+                BS0005->acc_BS0202070000->asset_na->@MEMBER(@CONCATENATE(@SUBSTRING(@NAME(@CURRMBR(i_Location)),1),"T"))->iloc_na->icc_NA->cc_011701
+                + ftrexp0003;
+        )        
+        
+    ENDFIX
+    
+FIX(@IDESCENDANTS(Asset_total)
+        iloc_0000000000
+        loc_1000000000 loc_2000000000
+        icc_000000
+        cc_011701
+        lv_calc
+        view_na
+        acc_na
+        Product_NA)
+        @IDESCENDANTS(FA0000,-1); FA0000(
+            IF (@ISMBR(Jan))
+                IF(@ISMBR(@REMOVE(@RELATIVE(Asset_1000,0),@LIST(Asset_1008,Asset_1009))))
+                    BS0004->acc_BS0101010100->asset_na->@MEMBER(@CONCATENATE(@NAME(@CURRMBR(Location)),"T"))->iloc_na->icc_NA = BS0004->acc_BS0101010100->asset_na->@MEMBER(@CONCATENATE(@NAME(@CURRMBR(Location)),"T"))->iloc_na->icc_NA + FA0019;
+                    BS0004->acc_BS0101010200->asset_na->@MEMBER(@CONCATENATE(@NAME(@CURRMBR(Location)),"T"))->iloc_na->icc_NA = BS0004->acc_BS0101010200->asset_na->@MEMBER(@CONCATENATE(@NAME(@CURRMBR(Location)),"T"))->iloc_na->icc_NA + FA0007;
+                ELSEIF (@ISMBR(Asset_1008))
+                    BS0004->acc_BS0101020100->asset_na->@MEMBER(@CONCATENATE(@NAME(@CURRMBR(Location)),"T"))->iloc_na->icc_NA = BS0004->acc_BS0101020100->asset_na->@MEMBER(@CONCATENATE(@NAME(@CURRMBR(Location)),"T"))->iloc_na->icc_NA + FA0019;
+                    BS0004->acc_BS0101020200->asset_na->@MEMBER(@CONCATENATE(@NAME(@CURRMBR(Location)),"T"))->iloc_na->icc_NA = BS0004->acc_BS0101020200->asset_na->@MEMBER(@CONCATENATE(@NAME(@CURRMBR(Location)),"T"))->iloc_na->icc_NA + FA0007;
+                ELSEIF(@ISMBR(Asset_1009))
+                    BS0004->acc_BS0101030000->asset_na->@MEMBER(@CONCATENATE(@NAME(@CURRMBR(Location)),"T"))->iloc_na->icc_NA = BS0004->acc_BS0101030000->asset_na->@MEMBER(@CONCATENATE(@NAME(@CURRMBR(Location)),"T"))->iloc_na->icc_NA + FA0013;
+                ELSEIF (@ISMBR(Asset_2001,Asset_2002))
+                    BS0004->acc_BS0102010000->asset_na->@MEMBER(@CONCATENATE(@NAME(@CURRMBR(Location)),"T"))->iloc_na->icc_NA = BS0004->acc_BS0102010000->asset_na->@MEMBER(@CONCATENATE(@NAME(@CURRMBR(Location)),"T"))->iloc_na->icc_NA + FA0013;
+                ELSEIF (@ISMBR(Asset_2003,Asset_2004))
+                    BS0004->acc_BS0102020000->asset_na->@MEMBER(@CONCATENATE(@NAME(@CURRMBR(Location)),"T"))->iloc_na->icc_NA = BS0004->acc_BS0102020000->asset_na->@MEMBER(@CONCATENATE(@NAME(@CURRMBR(Location)),"T"))->iloc_na->icc_NA + FA0013;
+                ENDIF
+            ENDIF
+            IF(@ISMBR(@REMOVE(@RELATIVE(Asset_1000,0),@LIST(Asset_1008,Asset_1009))))
+                BS0005->acc_BS0101010100->asset_na->@MEMBER(@CONCATENATE(@NAME(@CURRMBR(Location)),"T"))->iloc_na->icc_NA = BS0005->acc_BS0101010100->asset_na->@MEMBER(@CONCATENATE(@NAME(@CURRMBR(Location)),"T"))->iloc_na->icc_NA + FA0018;
+                BS0005->acc_BS0101010200->asset_na->@MEMBER(@CONCATENATE(@NAME(@CURRMBR(Location)),"T"))->iloc_na->icc_NA = BS0005->acc_BS0101010200->asset_na->@MEMBER(@CONCATENATE(@NAME(@CURRMBR(Location)),"T"))->iloc_na->icc_NA + FA0006;
+            ELSEIF (@ISMBR(Asset_1008))
+                BS0005->acc_BS0101020100->asset_na->@MEMBER(@CONCATENATE(@NAME(@CURRMBR(Location)),"T"))->iloc_na->icc_NA = BS0005->acc_BS0101020100->asset_na->@MEMBER(@CONCATENATE(@NAME(@CURRMBR(Location)),"T"))->iloc_na->icc_NA + FA0018;
+                BS0005->acc_BS0101020200->asset_na->@MEMBER(@CONCATENATE(@NAME(@CURRMBR(Location)),"T"))->iloc_na->icc_NA = BS0005->acc_BS0101020200->asset_na->@MEMBER(@CONCATENATE(@NAME(@CURRMBR(Location)),"T"))->iloc_na->icc_NA + FA0006;
+            ELSEIF(@ISMBR(Asset_1009))
+                BS0005->acc_BS0101030000->asset_na->@MEMBER(@CONCATENATE(@NAME(@CURRMBR(Location)),"T"))->iloc_na->icc_NA = BS0005->acc_BS0101030000->asset_na->@MEMBER(@CONCATENATE(@NAME(@CURRMBR(Location)),"T"))->iloc_na->icc_NA + FA0012;
+            ELSEIF (@ISMBR(Asset_2001,Asset_2002))
+                BS0005->acc_BS0102010000->asset_na->@MEMBER(@CONCATENATE(@NAME(@CURRMBR(Location)),"T"))->iloc_na->icc_NA = BS0005->acc_BS0102010000->asset_na->@MEMBER(@CONCATENATE(@NAME(@CURRMBR(Location)),"T"))->iloc_na->icc_NA + FA0012;
+            ELSEIF (@ISMBR(Asset_2003,Asset_2004))
+                BS0005->acc_BS0102020000->asset_na->@MEMBER(@CONCATENATE(@NAME(@CURRMBR(Location)),"T"))->iloc_na->icc_NA = BS0005->acc_BS0102020000->asset_na->@MEMBER(@CONCATENATE(@NAME(@CURRMBR(Location)),"T"))->iloc_na->icc_NA + FA0012;
+            ENDIF
+            
+            
+        )
+
+    ENDFIX
+    FIX(CAPEX0012 CAPEX0014
+        Asset_total
+        loc_1000000000 loc_2000000000
+        iloc_0000000000
+        icc_000000
+        lv_calc
+        сс_capex
+        View_CAPEX0002
+        Project_00000)
+        acc_440000000(
+        BS0004->acc_BS0103000000->asset_na->@MEMBER(@CONCATENATE(@NAME(@CURRMBR(Location)),"T"))->iloc_na->icc_NA->cc_011701->view_na->Product_NA = CAPEX0012;
+            BS0005->acc_BS0103000000->asset_na->@MEMBER(@CONCATENATE(@NAME(@CURRMBR(Location)),"T"))->iloc_na->icc_NA->cc_011701->view_na->Product_NA = CAPEX0014;
+        )
+    ENDFIX
+    
+    
+FIX(Asset_NA
+        Farm_1000000000 Farm_2000000000
+        cc_011702
+        Product_NA
+        lv_calc)
+        FIX(iThrd_Party
+            icc_010000)
+            FIX(view_fin0103) 
+                FIX(acc_270406234 acc_270406247 acc_270406236 acc_270406248 acc_270406237 acc_270406249)
+                    share0001(
+                        IF (@ISMBR(Jan))
+                            acc_BS0202040000->BS0004-> @MEMBER(@CONCATENATE(@CONCATENATE("loc_",@SUBSTRING(@NAME(@CURRMBR(Location)),5)),"T"))->iloc_na->icc_NA->cc_011701->view_na = 
+                            acc_BS0202040000->BS0004-> @MEMBER(@CONCATENATE(@CONCATENATE("loc_",@SUBSTRING(@NAME(@CURRMBR(Location)),5)),"T"))->iloc_na->icc_NA->cc_011701->view_na
+                                + @CURRMBR(Account);
+                        ENDIF
+                    )
+                    share0002(
+                        acc_BS0202040000->BS0005-> @MEMBER(@CONCATENATE(@CONCATENATE("loc_",@SUBSTRING(@NAME(@CURRMBR(Location)),5)),"T"))->iloc_na->icc_NA->cc_011701->view_na = 
+                            acc_BS0202040000->BS0005-> @MEMBER(@CONCATENATE(@CONCATENATE("loc_",@SUBSTRING(@NAME(@CURRMBR(Location)),5)),"T"))->iloc_na->icc_NA->cc_011701->view_na
+                                + @CURRMBR(Account);
+                    )
+                ENDFIX
+                
+                FIX(acc_270406240 acc_270406250)
+                    share0003(
+                        IF (@ISMBR(Jan))
+                            acc_BS0203030100->BS0004-> @MEMBER(@CONCATENATE(@CONCATENATE("loc_",@SUBSTRING(@NAME(@CURRMBR(Location)),5)),"T"))->iloc_na->icc_NA->cc_011701->view_na = 
+                            acc_BS0203030100->BS0004-> @MEMBER(@CONCATENATE(@CONCATENATE("loc_",@SUBSTRING(@NAME(@CURRMBR(Location)),5)),"T"))->iloc_na->icc_NA->cc_011701->view_na
+                                + @CURRMBR(Account);
+                        ENDIF
+                    )
+                    share0004(
+                        acc_BS0203030100->BS0005-> @MEMBER(@CONCATENATE(@CONCATENATE("loc_",@SUBSTRING(@NAME(@CURRMBR(Location)),5)),"T"))->iloc_na->icc_NA->cc_011701->view_na = 
+                            acc_BS0203030100->BS0005-> @MEMBER(@CONCATENATE(@CONCATENATE("loc_",@SUBSTRING(@NAME(@CURRMBR(Location)),5)),"T"))->iloc_na->icc_NA->cc_011701->view_na
+                                + @CURRMBR(Account);
+                    )
+                ENDFIX
+                
+                FIX(acc_270406238 acc_270406239)
+                    share0003(
+                        IF (@ISMBR(Jan))
+                            acc_BS0203030200->BS0004-> @MEMBER(@CONCATENATE(@CONCATENATE("loc_",@SUBSTRING(@NAME(@CURRMBR(Location)),5)),"T"))->iloc_na->icc_NA->cc_011701->view_na = 
+                            acc_BS0203030200->BS0004-> @MEMBER(@CONCATENATE(@CONCATENATE("loc_",@SUBSTRING(@NAME(@CURRMBR(Location)),5)),"T"))->iloc_na->icc_NA->cc_011701->view_na
+                                + @CURRMBR(Account);
+                        ENDIF
+                    )
+                    share0004(
+                        acc_BS0203030200->BS0005-> @MEMBER(@CONCATENATE(@CONCATENATE("loc_",@SUBSTRING(@NAME(@CURRMBR(Location)),5)),"T"))->iloc_na->icc_NA->cc_011701->view_na = 
+                            acc_BS0203030200->BS0005-> @MEMBER(@CONCATENATE(@CONCATENATE("loc_",@SUBSTRING(@NAME(@CURRMBR(Location)),5)),"T"))->iloc_na->icc_NA->cc_011701->view_na
+                                + @CURRMBR(Account);
+                    )
+                ENDFIX
+                
+                FIX(acc_270406241 acc_270406252 acc_270406251 acc_270406253 acc_090102067 acc_090102068 )
+                    share0003(
+                        IF (@ISMBR(Jan))
+                            acc_BS0203030300->BS0004-> @MEMBER(@CONCATENATE(@CONCATENATE("loc_",@SUBSTRING(@NAME(@CURRMBR(Location)),5)),"T"))->iloc_na->icc_NA->cc_011701->view_na = 
+                            acc_BS0203030300->BS0004-> @MEMBER(@CONCATENATE(@CONCATENATE("loc_",@SUBSTRING(@NAME(@CURRMBR(Location)),5)),"T"))->iloc_na->icc_NA->cc_011701->view_na
+                                + @CURRMBR(Account);
+                        ENDIF
+                    )
+                    share0004(
+                            acc_BS0203030300->BS0005-> @MEMBER(@CONCATENATE(@CONCATENATE("loc_",@SUBSTRING(@NAME(@CURRMBR(Location)),5)),"T"))->iloc_na->icc_NA->cc_011701->view_na = 
+                            acc_BS0203030300->BS0005-> @MEMBER(@CONCATENATE(@CONCATENATE("loc_",@SUBSTRING(@NAME(@CURRMBR(Location)),5)),"T"))->iloc_na->icc_NA->cc_011701->view_na
+                                + @CURRMBR(Account);
+                    )
+                ENDFIX
+                
+            ENDFIX
+            FIX(view_fin0101) FIX(acc_270406242)
+                    share0001(
+                        IF (@ISMBR(Jan))
+                            acc_BS0202050100->BS0004-> @MEMBER(@CONCATENATE(@CONCATENATE("loc_",@SUBSTRING(@NAME(@CURRMBR(Location)),5)),"T"))->iloc_na->icc_NA->cc_011701->view_na = 
+                            acc_BS0202050100->BS0004-> @MEMBER(@CONCATENATE(@CONCATENATE("loc_",@SUBSTRING(@NAME(@CURRMBR(Location)),5)),"T"))->iloc_na->icc_NA->cc_011701->view_na
+                                + @CURRMBR(Account);
+                        ENDIF
+                    )
+                    share0002(
+                        acc_BS0202050100->BS0005-> @MEMBER(@CONCATENATE(@CONCATENATE("loc_",@SUBSTRING(@NAME(@CURRMBR(Location)),5)),"T"))->iloc_na->icc_NA->cc_011701->view_na = 
+                            acc_BS0202050100->BS0005-> @MEMBER(@CONCATENATE(@CONCATENATE("loc_",@SUBSTRING(@NAME(@CURRMBR(Location)),5)),"T"))->iloc_na->icc_NA->cc_011701->view_na
+                                + @CURRMBR(Account);
+                    )
+                ENDFIX
+                FIX(acc_270406243 acc_270406244)
+                    share0001(
+                        IF (@ISMBR(Jan))
+                            acc_BS0202050200->BS0004-> @MEMBER(@CONCATENATE(@CONCATENATE("loc_",@SUBSTRING(@NAME(@CURRMBR(Location)),5)),"T"))->iloc_na->icc_NA->cc_011701->view_na = 
+                            acc_BS0202050200->BS0004-> @MEMBER(@CONCATENATE(@CONCATENATE("loc_",@SUBSTRING(@NAME(@CURRMBR(Location)),5)),"T"))->iloc_na->icc_NA->cc_011701->view_na
+                                + @CURRMBR(Account);
+                        ENDIF
+                    )
+                    share0002(
+                        acc_BS0202050200->BS0005-> @MEMBER(@CONCATENATE(@CONCATENATE("loc_",@SUBSTRING(@NAME(@CURRMBR(Location)),5)),"T"))->iloc_na->icc_NA->cc_011701->view_na = 
+                            acc_BS0202050200->BS0005-> @MEMBER(@CONCATENATE(@CONCATENATE("loc_",@SUBSTRING(@NAME(@CURRMBR(Location)),5)),"T"))->iloc_na->icc_NA->cc_011701->view_na
+                                + @CURRMBR(Account);
+                    )
+                ENDFIX
+            ENDFIX
+            FIX(view_fin0102) FIX(acc_270406234 acc_270406247 acc_270406236 acc_270406248 acc_270406237 acc_270406249 )
+                    share0001(
+                        IF (@ISMBR(Jan))
+                            acc_BS0301010300->BS0004-> @MEMBER(@CONCATENATE(@CONCATENATE("loc_",@SUBSTRING(@NAME(@CURRMBR(Location)),5)),"T"))->iloc_na->icc_NA->cc_011701->view_na = acc_270406234;
+                            acc_BS0301010400->BS0004-> @MEMBER(@CONCATENATE(@CONCATENATE("loc_",@SUBSTRING(@NAME(@CURRMBR(Location)),5)),"T"))->iloc_na->icc_NA->cc_011701->view_na = acc_270406247;
+                            acc_BS0301020100->BS0004-> @MEMBER(@CONCATENATE(@CONCATENATE("loc_",@SUBSTRING(@NAME(@CURRMBR(Location)),5)),"T"))->iloc_na->icc_NA->cc_011701->view_na = acc_270406236;
+                            acc_BS0301020200->BS0004-> @MEMBER(@CONCATENATE(@CONCATENATE("loc_",@SUBSTRING(@NAME(@CURRMBR(Location)),5)),"T"))->iloc_na->icc_NA->cc_011701->view_na = acc_270406248;
+                            acc_BS0301020300->BS0004-> @MEMBER(@CONCATENATE(@CONCATENATE("loc_",@SUBSTRING(@NAME(@CURRMBR(Location)),5)),"T"))->iloc_na->icc_NA->cc_011701->view_na = acc_270406237;
+                            acc_BS0301020400->BS0004-> @MEMBER(@CONCATENATE(@CONCATENATE("loc_",@SUBSTRING(@NAME(@CURRMBR(Location)),5)),"T"))->iloc_na->icc_NA->cc_011701->view_na = acc_270406249;
+                        ENDIF
+                    )
+                    share0002(
+                            acc_BS0301010300->BS0005-> @MEMBER(@CONCATENATE(@CONCATENATE("loc_",@SUBSTRING(@NAME(@CURRMBR(Location)),5)),"T"))->iloc_na->icc_NA->cc_011701->view_na = acc_270406234;
+                            acc_BS0301010400->BS0005-> @MEMBER(@CONCATENATE(@CONCATENATE("loc_",@SUBSTRING(@NAME(@CURRMBR(Location)),5)),"T"))->iloc_na->icc_NA->cc_011701->view_na = acc_270406247;
+                            acc_BS0301020100->BS0005-> @MEMBER(@CONCATENATE(@CONCATENATE("loc_",@SUBSTRING(@NAME(@CURRMBR(Location)),5)),"T"))->iloc_na->icc_NA->cc_011701->view_na = acc_270406236;
+                            acc_BS0301020200->BS0005-> @MEMBER(@CONCATENATE(@CONCATENATE("loc_",@SUBSTRING(@NAME(@CURRMBR(Location)),5)),"T"))->iloc_na->icc_NA->cc_011701->view_na = acc_270406248;
+                            acc_BS0301020300->BS0005-> @MEMBER(@CONCATENATE(@CONCATENATE("loc_",@SUBSTRING(@NAME(@CURRMBR(Location)),5)),"T"))->iloc_na->icc_NA->cc_011701->view_na = acc_270406237;
+                            acc_BS0301020400->BS0005-> @MEMBER(@CONCATENATE(@CONCATENATE("loc_",@SUBSTRING(@NAME(@CURRMBR(Location)),5)),"T"))->iloc_na->icc_NA->cc_011701->view_na = acc_270406249;
+                    )
+                ENDFIX
+                FIX(acc_270406238 acc_270406239 acc_270406240 acc_270406250 acc_270406241 acc_270406252 acc_270406251 acc_270406253  )
+                    share0003(
+                        IF (@ISMBR(Jan))
+                            acc_BS0301030100->BS0004-> @MEMBER(@CONCATENATE(@CONCATENATE("loc_",@SUBSTRING(@NAME(@CURRMBR(Location)),5)),"T"))->iloc_na->icc_NA->cc_011701->view_na = acc_270406238;
+                            acc_BS0301030200->BS0004-> @MEMBER(@CONCATENATE(@CONCATENATE("loc_",@SUBSTRING(@NAME(@CURRMBR(Location)),5)),"T"))->iloc_na->icc_NA->cc_011701->view_na = acc_270406239;
+                            acc_BS0301040100->BS0004-> @MEMBER(@CONCATENATE(@CONCATENATE("loc_",@SUBSTRING(@NAME(@CURRMBR(Location)),5)),"T"))->iloc_na->icc_NA->cc_011701->view_na = acc_270406240;
+                            acc_BS0301040200->BS0004-> @MEMBER(@CONCATENATE(@CONCATENATE("loc_",@SUBSTRING(@NAME(@CURRMBR(Location)),5)),"T"))->iloc_na->icc_NA->cc_011701->view_na = acc_270406250;
+                            acc_BS0301050100->BS0004-> @MEMBER(@CONCATENATE(@CONCATENATE("loc_",@SUBSTRING(@NAME(@CURRMBR(Location)),5)),"T"))->iloc_na->icc_NA->cc_011701->view_na = acc_270406241;
+                            acc_BS0301050200->BS0004-> @MEMBER(@CONCATENATE(@CONCATENATE("loc_",@SUBSTRING(@NAME(@CURRMBR(Location)),5)),"T"))->iloc_na->icc_NA->cc_011701->view_na = acc_270406252;
+                            acc_BS0301050300->BS0004-> @MEMBER(@CONCATENATE(@CONCATENATE("loc_",@SUBSTRING(@NAME(@CURRMBR(Location)),5)),"T"))->iloc_na->icc_NA->cc_011701->view_na = acc_270406251;
+                            acc_BS0301050400->BS0004-> @MEMBER(@CONCATENATE(@CONCATENATE("loc_",@SUBSTRING(@NAME(@CURRMBR(Location)),5)),"T"))->iloc_na->icc_NA->cc_011701->view_na = acc_270406253;
+                        ENDIF
+                    )
+                    share0004(
+                            acc_BS0301030100->BS0005-> @MEMBER(@CONCATENATE(@CONCATENATE("loc_",@SUBSTRING(@NAME(@CURRMBR(Location)),5)),"T"))->iloc_na->icc_NA->cc_011701->view_na = acc_270406238;
+                            acc_BS0301030200->BS0005-> @MEMBER(@CONCATENATE(@CONCATENATE("loc_",@SUBSTRING(@NAME(@CURRMBR(Location)),5)),"T"))->iloc_na->icc_NA->cc_011701->view_na = acc_270406239;
+                            acc_BS0301040100->BS0005-> @MEMBER(@CONCATENATE(@CONCATENATE("loc_",@SUBSTRING(@NAME(@CURRMBR(Location)),5)),"T"))->iloc_na->icc_NA->cc_011701->view_na = acc_270406240;
+                            acc_BS0301040200->BS0005-> @MEMBER(@CONCATENATE(@CONCATENATE("loc_",@SUBSTRING(@NAME(@CURRMBR(Location)),5)),"T"))->iloc_na->icc_NA->cc_011701->view_na = acc_270406250;
+                            acc_BS0301050100->BS0005-> @MEMBER(@CONCATENATE(@CONCATENATE("loc_",@SUBSTRING(@NAME(@CURRMBR(Location)),5)),"T"))->iloc_na->icc_NA->cc_011701->view_na = acc_270406241;
+                            acc_BS0301050200->BS0005-> @MEMBER(@CONCATENATE(@CONCATENATE("loc_",@SUBSTRING(@NAME(@CURRMBR(Location)),5)),"T"))->iloc_na->icc_NA->cc_011701->view_na = acc_270406252;
+                            acc_BS0301050300->BS0005-> @MEMBER(@CONCATENATE(@CONCATENATE("loc_",@SUBSTRING(@NAME(@CURRMBR(Location)),5)),"T"))->iloc_na->icc_NA->cc_011701->view_na = acc_270406251;
+                            acc_BS0301050400->BS0005-> @MEMBER(@CONCATENATE(@CONCATENATE("loc_",@SUBSTRING(@NAME(@CURRMBR(Location)),5)),"T"))->iloc_na->icc_NA->cc_011701->view_na = acc_270406253;
+                    )
+                ENDFIX
+                
+                FIX(acc_090102067 acc_090102068)
+                    share0003(
+                        IF (@ISMBR(Jan))
+                            acc_BS0301060200->BS0004-> @MEMBER(@CONCATENATE(@CONCATENATE("loc_",@SUBSTRING(@NAME(@CURRMBR(Location)),5)),"T"))->iloc_na->icc_NA->cc_011701->view_na = 
+                            acc_BS0301060200->BS0004-> @MEMBER(@CONCATENATE(@CONCATENATE("loc_",@SUBSTRING(@NAME(@CURRMBR(Location)),5)),"T"))->iloc_na->icc_NA->cc_011701->view_na
+                            + @CURRMBR(Account);
+                        ENDIF
+                    )
+                    share0004(
+                            acc_BS0301060200->BS0005-> @MEMBER(@CONCATENATE(@CONCATENATE("loc_",@SUBSTRING(@NAME(@CURRMBR(Location)),5)),"T"))->iloc_na->icc_NA->cc_011701->view_na = 
+                            acc_BS0301060200->BS0005-> @MEMBER(@CONCATENATE(@CONCATENATE("loc_",@SUBSTRING(@NAME(@CURRMBR(Location)),5)),"T"))->iloc_na->icc_NA->cc_011701->view_na
+                            + @CURRMBR(Account);
+                    )
+                ENDFIX
+                
+            ENDFIX
+        ENDFIX
+        
+        FIX(@RELATIVE(iloc_0000000000T,0) icc_011702)
+            FIX(view_fin0103)  FIX(acc_270406236 acc_270406248 acc_270406237 acc_270406249 acc_270406234 acc_270406247 )
+                share0001(
+                        IF (@ISMBR(Jan))
+                        
+                            @MEMBER(@CONCATENATE("acc_BS0204030",@SUBSTRING(@NAME(@CURRMBR(i_location)),5,8)))->BS0004-> @MEMBER(@CONCATENATE(@CONCATENATE("loc_",@SUBSTRING(@NAME(@CURRMBR(Location)),5)),"T"))->iloc_na->icc_NA->cc_011701->view_na = 
+                            @MEMBER(@CONCATENATE("acc_BS0204030",@SUBSTRING(@NAME(@CURRMBR(i_location)),5,8)))->BS0004-> @MEMBER(@CONCATENATE(@CONCATENATE("loc_",@SUBSTRING(@NAME(@CURRMBR(Location)),5)),"T"))->iloc_na->icc_NA->cc_011701->view_na
+                                + @CURRMBR(Account);
+                        ENDIF
+                    )
+                    share0002(
+                            @MEMBER(@CONCATENATE("acc_BS0204030",@SUBSTRING(@NAME(@CURRMBR(i_location)),5,8)))->BS0005-> @MEMBER(@CONCATENATE(@CONCATENATE("loc_",@SUBSTRING(@NAME(@CURRMBR(Location)),5)),"T"))->iloc_na->icc_NA->cc_011701->view_na = 
+                            @MEMBER(@CONCATENATE("acc_BS0204030",@SUBSTRING(@NAME(@CURRMBR(i_location)),5,8)))->BS0005-> @MEMBER(@CONCATENATE(@CONCATENATE("loc_",@SUBSTRING(@NAME(@CURRMBR(Location)),5)),"T"))->iloc_na->icc_NA->cc_011701->view_na
+                                + @CURRMBR(Account);
+                    )
+                ENDFIX
+                
+            FIX(acc_270406238 acc_270406239 acc_270406240 acc_270406250 acc_270406241 acc_270406252 acc_270406251 acc_270406253 )
+                share0003(
+                        IF (@ISMBR(Jan))
+                        
+                            @MEMBER(@CONCATENATE("acc_BS0205030",@SUBSTRING(@NAME(@CURRMBR(i_location)),5,8)))->BS0004-> @MEMBER(@CONCATENATE(@CONCATENATE("loc_",@SUBSTRING(@NAME(@CURRMBR(Location)),5)),"T"))->iloc_na->icc_NA->cc_011701->view_na = 
+                            @MEMBER(@CONCATENATE("acc_BS0205030",@SUBSTRING(@NAME(@CURRMBR(i_location)),5,8)))->BS0004-> @MEMBER(@CONCATENATE(@CONCATENATE("loc_",@SUBSTRING(@NAME(@CURRMBR(Location)),5)),"T"))->iloc_na->icc_NA->cc_011701->view_na
+                                + @CURRMBR(Account);
+                        ENDIF
+                    )
+                    share0004(
+                            @MEMBER(@CONCATENATE("acc_BS0205030",@SUBSTRING(@NAME(@CURRMBR(i_location)),5,8)))->BS0005-> @MEMBER(@CONCATENATE(@CONCATENATE("loc_",@SUBSTRING(@NAME(@CURRMBR(Location)),5)),"T"))->iloc_na->icc_NA->cc_011701->view_na = 
+                            @MEMBER(@CONCATENATE("acc_BS0205030",@SUBSTRING(@NAME(@CURRMBR(i_location)),5,8)))->BS0005-> @MEMBER(@CONCATENATE(@CONCATENATE("loc_",@SUBSTRING(@NAME(@CURRMBR(Location)),5)),"T"))->iloc_na->icc_NA->cc_011701->view_na
+                                + @CURRMBR(Account);
+                    )
+                ENDFIX
+            ENDFIX
+            FIX(view_fin0102) FIX(acc_270406236 acc_270406248 acc_270406237 acc_270406249 acc_270406234 acc_270406247)
+                share0001(
+                        IF (@ISMBR(Jan))
+                        
+                            @MEMBER(@CONCATENATE("acc_BS0302010",@SUBSTRING(@NAME(@CURRMBR(i_location)),5,8)))->BS0004-> @MEMBER(@CONCATENATE(@CONCATENATE("loc_",@SUBSTRING(@NAME(@CURRMBR(Location)),5)),"T"))->iloc_na->icc_NA->cc_011701->view_na = 
+                            @MEMBER(@CONCATENATE("acc_BS0302010",@SUBSTRING(@NAME(@CURRMBR(i_location)),5,8)))->BS0004-> @MEMBER(@CONCATENATE(@CONCATENATE("loc_",@SUBSTRING(@NAME(@CURRMBR(Location)),5)),"T"))->iloc_na->icc_NA->cc_011701->view_na
+                                + @CURRMBR(Account);
+                        ENDIF
+                    )
+                    share0002(
+                            @MEMBER(@CONCATENATE("acc_BS0302010",@SUBSTRING(@NAME(@CURRMBR(i_location)),5,8)))->BS0005-> @MEMBER(@CONCATENATE(@CONCATENATE("loc_",@SUBSTRING(@NAME(@CURRMBR(Location)),5)),"T"))->iloc_na->icc_NA->cc_011701->view_na = 
+                            @MEMBER(@CONCATENATE("acc_BS0302010",@SUBSTRING(@NAME(@CURRMBR(i_location)),5,8)))->BS0005-> @MEMBER(@CONCATENATE(@CONCATENATE("loc_",@SUBSTRING(@NAME(@CURRMBR(Location)),5)),"T"))->iloc_na->icc_NA->cc_011701->view_na
+                                + @CURRMBR(Account);
+                    )
+                ENDFIX
+                FIX(acc_270406238 acc_270406239 acc_270406240 acc_270406250 acc_270406241 acc_270406252 acc_270406251 acc_270406253  )
+                share0003(
+                        IF (@ISMBR(Jan))
+                            @MEMBER(@CONCATENATE("acc_BS0302020",@SUBSTRING(@NAME(@CURRMBR(i_location)),5,8)))->BS0004-> @MEMBER(@CONCATENATE(@CONCATENATE("loc_",@SUBSTRING(@NAME(@CURRMBR(Location)),5)),"T"))->iloc_na->icc_NA->cc_011701->view_na = 
+                            @MEMBER(@CONCATENATE("acc_BS0302020",@SUBSTRING(@NAME(@CURRMBR(i_location)),5,8)))->BS0004-> @MEMBER(@CONCATENATE(@CONCATENATE("loc_",@SUBSTRING(@NAME(@CURRMBR(Location)),5)),"T"))->iloc_na->icc_NA->cc_011701->view_na
+                                + @CURRMBR(Account);
+                        ENDIF
+                    )
+                    share0004(
+                            @MEMBER(@CONCATENATE("acc_BS0302020",@SUBSTRING(@NAME(@CURRMBR(i_location)),5,8)))->BS0005-> @MEMBER(@CONCATENATE(@CONCATENATE("loc_",@SUBSTRING(@NAME(@CURRMBR(Location)),5)),"T"))->iloc_na->icc_NA->cc_011701->view_na = 
+                            @MEMBER(@CONCATENATE("acc_BS0302020",@SUBSTRING(@NAME(@CURRMBR(i_location)),5,8)))->BS0005-> @MEMBER(@CONCATENATE(@CONCATENATE("loc_",@SUBSTRING(@NAME(@CURRMBR(Location)),5)),"T"))->iloc_na->icc_NA->cc_011701->view_na
+                                + @CURRMBR(Account);
+                    )
+                ENDFIX
+                
+            ENDFIX
+        ENDFIX
+    ENDFIX
+
+
+    SET FRMLBOTTOMUP OFF;   
+    FIX(asset_na
+        loc_1000000000T
+        iloc_na
+        icc_NA
+        cc_011701
+        view_na
+        Product_NA
+        lv_calc)
+        FIX(acc_BS0201030400)
+            BS0004 = @XREF("_RevCube_",RM_NA,icc_NA,lv_calc,iloc_NA,VR_WORK,Product_NA,LapNum_Total,acc_600000000,loc_1000000000,cc_010204,budget0001,view_acc_tech0019);
+            BS0005 = @XREF("_RevCube_",RM_NA,icc_NA,lv_calc,iloc_NA,VR_WORK,Product_NA,LapNum_Total,acc_600000000,loc_1000000000,cc_010204,budget0001,view_acc_tech0020);
+        ENDFIX
+        
+        FIX(acc_BS0201030500)
+            BS0004 = @XREF("_RevCube_",lv_calc,Product_NA,iloc_NA,icc_NA,acc_600000000,cc_010600,HerdNum_Total,loc_0000000000,budget0001,RM_AGE000168,view_acc_tech0011)
+                        + @XREF("_RevCube_",lv_calc,Product_NA,iloc_NA,icc_NA,acc_tech0011,cc_010600,HerdNum_Total,loc_0000000000,budget0001,RM_AGE169420,view_acc_tech0002);
+            
+            BS0005 = @XREF("_RevCube_",lv_calc,Product_NA,iloc_NA,icc_NA,acc_600000000,cc_010600,HerdNum_Total,loc_0000000000,budget0001,RM_AGE000168,view_acc_tech0012)
+                        + @XREF("_RevCube_",lv_calc,Product_NA,iloc_NA,icc_NA,acc_tech0011,cc_010600,HerdNum_Total,loc_0000000000,budget0001,RM_AGE169420,view_acc_tech0003);
+        ENDFIX
+        FIX(acc_BS0201030600)
+            BS0004 = @XREF("_RevCube_",loc_0000000000,acc_PL03050302,RM_NA,icc_NA,iloc_NA,cc_011201,view_na,Product_NA,HN_NA,budget0005,lv_input) + @XREF("_RevCube_",loc_0000000000,acc_PL03050602,RM_NA,icc_NA,iloc_NA,cc_011201,view_na,Product_NA,HN_NA,budget0005,lv_input);
+            BS0005 = @XREF("_RevCube_",loc_0000000000,acc_PL03050302,RM_NA,icc_NA,iloc_NA,cc_011201,view_na,Product_NA,HN_NA,budget0006,lv_input) + @XREF("_RevCube_",loc_0000000000,acc_PL03050602,RM_NA,icc_NA,iloc_NA,cc_011201,view_na,Product_NA,HN_NA,budget0006,lv_input);
+        ENDFIX
+        FIX(acc_BS0201040500)
+            BS0004 = @XREF("_BsCube_",iloc_NA,RM_NA,HN_NA,icc_NA,lv_total,acc_tech0026,Loc_Total,сс_010000T,Nom_Total,view_acc_tech0031,budget0005);
+            BS0005 = @XREF("_BsCube_",iloc_NA,RM_NA,HN_NA,icc_NA,lv_total,acc_tech0026,Loc_Total,сс_010000T,Nom_Total,view_acc_tech0031,budget0006);
+        ENDFIX
+        FIX(acc_BS0201040800)
+            BS0004 = @XREF("_RevCube_",loc_0000000000,acc_PL03050302,RM_NA,icc_NA,iloc_NA,cc_011101,view_na,Product_NA,HN_NA,budget0005,lv_input) + @XREF("_RevCube_",loc_0000000000,acc_PL03050602,RM_NA,icc_NA,iloc_NA,cc_011101,view_na,Product_NA,HN_NA,budget0005,lv_input);
+            BS0005 = @XREF("_RevCube_",loc_0000000000,acc_PL03050302,RM_NA,icc_NA,iloc_NA,cc_011101,view_na,Product_NA,HN_NA,budget0006,lv_input) + @XREF("_RevCube_",loc_0000000000,acc_PL03050602,RM_NA,icc_NA,iloc_NA,cc_011101,view_na,Product_NA,HN_NA,budget0006,lv_input);
+        ENDFIX
+        FIX(acc_BS0201040900)
+            BS0004 = @XREF("_RevCube_",RM_NA,HN_NA,icc_NA,iloc_NA,Product_NA,view_acc_tech0013,loc_0000000000,lv_calc,cc_010604,acc_600000000,budget0001);
+            BS0005 = @XREF("_RevCube_",RM_NA,HN_NA,icc_NA,iloc_NA,Product_NA,view_acc_tech0014,loc_0000000000,lv_calc,cc_010604,acc_600000000,budget0001);
+        ENDFIX
+        FIX(acc_BS0407000000)
+            BS0005 = @XREF("_RevCube_",HN_NA,icc_NA,Product_NA,RM_NA,iloc_NA,Farm_total,lv_cnsl,view_na,acc_PL07000000,budget0001,cc_000000PL) * 1000;
+            BS0005(
+                BS0005->acc_na = @ACCUM(BS0005);
+                BS0005 = BS0005->acc_na + BS0004->Jan;
+            )
+        ENDFIX
+    ENDFIX
+SET FRMLBOTTOMUP ON;    
+
+FIX(asset_na
+        loc_1000000000T
+        icc_NA
+        view_na)
+        FIX(iloc_na)
+        FIX(@RELATIVE(View_BS_Poultry,0)
+                @RELATIVE(Chnl_Total,0) Product_NA
+                @RELATIVE(acc_BS0202010000,0)
+                cc_011701)
+                FIX(lv_input)
+                share0001(
+                        BS0004->Product_NA->view_na->lv_calc = BS0004->Product_NA->view_na->lv_calc + share0001;
+                    )
+                ENDFIX
+                FIX(lv_calc)
+                share0002(
+                        BS0005->Product_NA->view_na->lv_calc = BS0005->Product_NA->view_na->lv_calc + share0002;
+                    )
+                ENDFIX
+            ENDFIX
+            FIX(View_na
+                Product_NA
+                cc_011702
+                lv_calc)
+                FIX(acc_tech0045)
+                    share0001(
+                        acc_BS0202020700->BS0004->Product_NA->view_na->lv_calc->cc_011701 = share0001;
+                    )
+                    share0002(
+                        acc_BS0202020700->BS0005->Product_NA->view_na->lv_calc->cc_011701 = share0002;
+                    )         
+                    share0003(
+                        acc_BS0203010700->BS0004->Product_NA->view_na->lv_calc->cc_011701 = share0003;
+                    )
+                    share0004(
+                        acc_BS0203010700->BS0005->Product_NA->view_na->lv_calc->cc_011701 = share0004;
+                    )   
+                ENDFIX
+                FIX(acc_tech0002)
+                    share0001(
+                        acc_BS0202020800->BS0004->Product_NA->view_na->lv_calc->cc_011701 = share0001;
+                    )
+                    share0002(
+                        acc_BS0202020800->BS0005->Product_NA->view_na->lv_calc->cc_011701 = share0002;
+                    )       
+                    share0003(
+                        acc_BS0203010800->BS0004->Product_NA->view_na->lv_calc->cc_011701 = share0003;
+                    )
+                    share0004(
+                        acc_BS0203010800->BS0005->Product_NA->view_na->lv_calc->cc_011701 = share0004;
+                    )   
+                ENDFIX
+                FIX(acc_tech0001 acc_010102028)
+                    share0001(
+                        acc_BS0202021300->BS0004->Product_NA->view_na->lv_calc->cc_011701 = acc_BS0202021300->BS0004->Product_NA->view_na->lv_calc->cc_011701 + share0001->@CURRMBR(Account);
+                    )
+                    share0002(
+                        acc_BS0202021300->BS0005->Product_NA->view_na->lv_calc->cc_011701 = acc_BS0202021300->BS0005->Product_NA->view_na->lv_calc->cc_011701 + share0002->@CURRMBR(Account);
+                    )            
+                    share0003(
+                        acc_BS0203011300->BS0004->Product_NA->view_na->lv_calc->cc_011701 = acc_BS0203011300->BS0004->Product_NA->view_na->lv_calc->cc_011701 + share0003->@CURRMBR(Account);
+                    )
+                    share0004(
+                        acc_BS0203011300->BS0005->Product_NA->view_na->lv_calc->cc_011701 = acc_BS0203011300->BS0005->Product_NA->view_na->lv_calc->cc_011701 + share0004->@CURRMBR(Account);
+                    )   
+                ENDFIX
+            ENDFIX
+        ENDFIX
+        FIX(View_na
+            Product_NA
+            lv_calc
+            acc_BS0205010200)
+            DATACOPY  cc_011702->iloc_2000000000T->share0001 to cc_011701->iloc_NA->BS0004;
+            DATACOPY  cc_011702->iloc_2000000000T->share0002 to cc_011701->iloc_NA->BS0005;
+        ENDFIX
+    ENDFIX
+
+    FIX(BS0004 BS0005
+        asset_na
+        loc_1000000000T loc_2000000000T
+        iloc_na
+        icc_NA
+        cc_011701
+        view_na
+        Product_NA)
+        FIX(@RELATIVE(acc_BS0000000000,0))
+        lv_calc(
+lv_calc = lv_calc/1000; 
+IF (@ISUDA(Account,UDA_EXP))
+                lv_calc = lv_calc * (-1);
+            ENDIF
+        )
+        ENDFIX
+        FIX(lv_calc)
+            @IDESCENDANTS(acc_BS0000000000,-1);
+        ENDFIX
+    ENDFIX
+ENDFIX
+' on Console.Console;
+logout ;
