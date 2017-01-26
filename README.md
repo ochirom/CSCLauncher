@@ -1,11 +1,13 @@
-Утилита для запуска расчетов над Essbase.
-Для работы требуется установленный EssbaseClient.
+Utility for running Essbase calculations from notepad.
+Installed Essbase Client required.
 
-По нажатию хоткея из активного окна (notepad++, блокнот и т.п.) забирается текст, очищается от комментариев, упаковывается в шаблон и отправляется на выполнение через startmaxl.
 
-1.Хоткей для запуска скрипта: Alt + L
+Program grabs text from active window, deletes comments, packs it into maxl template, executes maxl via startmaxl.bat.
 
-2.Поля с настройками запоминают значения при нажатии кнопки Enter. Удаляют при нажатии на X справа от поля.
 
-3.Куча необработанных эксепшенов приветствует вас.
+Hotkey: Alt + L
 
+Settings fields memorize values on Enter pressed. X to the right of the field removes current value.
+
+
+To try it out copy \bin folder and start CSCLauncher.exe
