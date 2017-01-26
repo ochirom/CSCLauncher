@@ -28,8 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
             this.PathToMaxlTextBox = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.MaxlSearchButton = new System.Windows.Forms.Button();
@@ -39,8 +37,6 @@
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.comboBox2 = new System.Windows.Forms.ComboBox();
             this.comboBox3 = new System.Windows.Forms.ComboBox();
@@ -54,23 +50,19 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.SettingsPage = new System.Windows.Forms.TabPage();
             this.ResultPage = new System.Windows.Forms.TabPage();
+            this.CopyCalc_button = new System.Windows.Forms.Button();
+            this.Del_button = new System.Windows.Forms.Button();
             this.Log_RTB = new System.Windows.Forms.RichTextBox();
-            this.button1 = new System.Windows.Forms.Button();
+            this.CopyLog_button = new System.Windows.Forms.Button();
             this.Calcs_LV = new System.Windows.Forms.ListView();
             this.Num = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.Status = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.Time = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.Code_RTB = new System.Windows.Forms.RichTextBox();
+            this.Calc_RTB = new System.Windows.Forms.RichTextBox();
             this.tabControl1.SuspendLayout();
             this.SettingsPage.SuspendLayout();
             this.ResultPage.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // notifyIcon1
-            // 
-            this.notifyIcon1.Text = "CSCLauncher";
-            this.notifyIcon1.Visible = true;
-            this.notifyIcon1.Click += new System.EventHandler(this.notifyIcon1_Click);
             // 
             // PathToMaxlTextBox
             // 
@@ -149,24 +141,6 @@
             this.label6.TabIndex = 7;
             this.label6.Text = "Password";
             // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(34, 179);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(50, 13);
-            this.label7.TabIndex = 14;
-            this.label7.Text = "STATUS";
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(146, 179);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(44, 13);
-            this.label8.TabIndex = 15;
-            this.label8.Text = "READY";
-            // 
             // comboBox1
             // 
             this.comboBox1.FormattingEnabled = true;
@@ -175,7 +149,6 @@
             this.comboBox1.Size = new System.Drawing.Size(232, 21);
             this.comboBox1.Sorted = true;
             this.comboBox1.TabIndex = 17;
-            this.comboBox1.Text = "mow03-hyp01dl";
             this.comboBox1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.comboBox1_KeyDown);
             // 
             // comboBox2
@@ -186,7 +159,6 @@
             this.comboBox2.Size = new System.Drawing.Size(232, 21);
             this.comboBox2.Sorted = true;
             this.comboBox2.TabIndex = 18;
-            this.comboBox2.Text = "Console";
             this.comboBox2.KeyDown += new System.Windows.Forms.KeyEventHandler(this.comboBox2_KeyDown);
             // 
             // comboBox3
@@ -197,7 +169,6 @@
             this.comboBox3.Size = new System.Drawing.Size(232, 21);
             this.comboBox3.Sorted = true;
             this.comboBox3.TabIndex = 19;
-            this.comboBox3.Text = "Console";
             this.comboBox3.KeyDown += new System.Windows.Forms.KeyEventHandler(this.comboBox3_KeyDown);
             // 
             // comboBox4
@@ -208,7 +179,6 @@
             this.comboBox4.Size = new System.Drawing.Size(232, 21);
             this.comboBox4.Sorted = true;
             this.comboBox4.TabIndex = 20;
-            this.comboBox4.Text = "admin";
             this.comboBox4.KeyDown += new System.Windows.Forms.KeyEventHandler(this.comboBox4_KeyDown);
             // 
             // comboBox5
@@ -221,7 +191,6 @@
             this.comboBox5.Size = new System.Drawing.Size(232, 21);
             this.comboBox5.Sorted = true;
             this.comboBox5.TabIndex = 21;
-            this.comboBox5.Text = "Welcome1";
             this.comboBox5.KeyDown += new System.Windows.Forms.KeyEventHandler(this.comboBox5_KeyDown);
             // 
             // linkLabel1
@@ -281,6 +250,9 @@
             // 
             // tabControl1
             // 
+            this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl1.Controls.Add(this.SettingsPage);
             this.tabControl1.Controls.Add(this.ResultPage);
             this.tabControl1.Location = new System.Drawing.Point(12, 12);
@@ -308,9 +280,7 @@
             this.SettingsPage.Controls.Add(this.comboBox3);
             this.SettingsPage.Controls.Add(this.label6);
             this.SettingsPage.Controls.Add(this.comboBox2);
-            this.SettingsPage.Controls.Add(this.label7);
             this.SettingsPage.Controls.Add(this.comboBox1);
-            this.SettingsPage.Controls.Add(this.label8);
             this.SettingsPage.Location = new System.Drawing.Point(4, 22);
             this.SettingsPage.Name = "SettingsPage";
             this.SettingsPage.Padding = new System.Windows.Forms.Padding(3);
@@ -321,10 +291,12 @@
             // 
             // ResultPage
             // 
+            this.ResultPage.Controls.Add(this.CopyCalc_button);
+            this.ResultPage.Controls.Add(this.Del_button);
             this.ResultPage.Controls.Add(this.Log_RTB);
-            this.ResultPage.Controls.Add(this.button1);
+            this.ResultPage.Controls.Add(this.CopyLog_button);
             this.ResultPage.Controls.Add(this.Calcs_LV);
-            this.ResultPage.Controls.Add(this.Code_RTB);
+            this.ResultPage.Controls.Add(this.Calc_RTB);
             this.ResultPage.Location = new System.Drawing.Point(4, 22);
             this.ResultPage.Name = "ResultPage";
             this.ResultPage.Padding = new System.Windows.Forms.Padding(3);
@@ -333,23 +305,49 @@
             this.ResultPage.Text = "Result";
             this.ResultPage.UseVisualStyleBackColor = true;
             // 
+            // CopyCalc_button
+            // 
+            this.CopyCalc_button.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.CopyCalc_button.Location = new System.Drawing.Point(538, 219);
+            this.CopyCalc_button.Name = "CopyCalc_button";
+            this.CopyCalc_button.Size = new System.Drawing.Size(75, 23);
+            this.CopyCalc_button.TabIndex = 20;
+            this.CopyCalc_button.Text = "Copy calc";
+            this.CopyCalc_button.UseVisualStyleBackColor = true;
+            this.CopyCalc_button.Click += new System.EventHandler(this.CopyCalc_button_Click);
+            // 
+            // Del_button
+            // 
+            this.Del_button.Location = new System.Drawing.Point(203, 6);
+            this.Del_button.Name = "Del_button";
+            this.Del_button.Size = new System.Drawing.Size(42, 23);
+            this.Del_button.TabIndex = 19;
+            this.Del_button.Text = "Del";
+            this.Del_button.UseVisualStyleBackColor = true;
+            this.Del_button.Click += new System.EventHandler(this.Del_button_Click);
+            // 
             // Log_RTB
             // 
+            this.Log_RTB.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.Log_RTB.Location = new System.Drawing.Point(6, 248);
             this.Log_RTB.Name = "Log_RTB";
             this.Log_RTB.ReadOnly = true;
             this.Log_RTB.Size = new System.Drawing.Size(607, 235);
             this.Log_RTB.TabIndex = 18;
             this.Log_RTB.Text = "";
+            this.Log_RTB.WordWrap = false;
             // 
-            // button1
+            // CopyLog_button
             // 
-            this.button1.Location = new System.Drawing.Point(538, 489);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 17;
-            this.button1.Text = "Copy";
-            this.button1.UseVisualStyleBackColor = true;
+            this.CopyLog_button.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.CopyLog_button.Location = new System.Drawing.Point(538, 489);
+            this.CopyLog_button.Name = "CopyLog_button";
+            this.CopyLog_button.Size = new System.Drawing.Size(75, 23);
+            this.CopyLog_button.TabIndex = 17;
+            this.CopyLog_button.Text = "Copy log";
+            this.CopyLog_button.UseVisualStyleBackColor = true;
+            this.CopyLog_button.Click += new System.EventHandler(this.CopyLog_button_Click);
             // 
             // Calcs_LV
             // 
@@ -378,14 +376,16 @@
             // 
             this.Time.Text = "Time";
             // 
-            // Code_RTB
+            // Calc_RTB
             // 
-            this.Code_RTB.Location = new System.Drawing.Point(254, 6);
-            this.Code_RTB.Name = "Code_RTB";
-            this.Code_RTB.ReadOnly = true;
-            this.Code_RTB.Size = new System.Drawing.Size(359, 207);
-            this.Code_RTB.TabIndex = 0;
-            this.Code_RTB.Text = "";
+            this.Calc_RTB.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.Calc_RTB.Location = new System.Drawing.Point(274, 6);
+            this.Calc_RTB.Name = "Calc_RTB";
+            this.Calc_RTB.ReadOnly = true;
+            this.Calc_RTB.Size = new System.Drawing.Size(339, 207);
+            this.Calc_RTB.TabIndex = 0;
+            this.Calc_RTB.Text = "";
+            this.Calc_RTB.WordWrap = false;
             // 
             // MainForm
             // 
@@ -393,6 +393,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(648, 578);
             this.Controls.Add(this.tabControl1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Name = "MainForm";
             this.Text = "CSCLauncher";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
@@ -406,8 +407,6 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.NotifyIcon notifyIcon1;
         private System.Windows.Forms.TextBox PathToMaxlTextBox;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button MaxlSearchButton;
@@ -417,8 +416,6 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Label label8;
         private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.ComboBox comboBox2;
         private System.Windows.Forms.ComboBox comboBox3;
@@ -434,11 +431,14 @@
         private System.Windows.Forms.TabPage ResultPage;
         private System.Windows.Forms.ListView Calcs_LV;
         private System.Windows.Forms.ColumnHeader Num;
-        private System.Windows.Forms.RichTextBox Code_RTB;
+        private System.Windows.Forms.RichTextBox Calc_RTB;
         private System.Windows.Forms.RichTextBox Log_RTB;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button CopyLog_button;
         private System.Windows.Forms.ColumnHeader Status;
         private System.Windows.Forms.ColumnHeader Time;
+        private System.Windows.Forms.Button Del_button;
+        private System.Windows.Forms.Button CopyCalc_button;
+
     }
 }
 

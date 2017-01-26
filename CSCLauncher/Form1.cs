@@ -18,7 +18,7 @@ namespace CSCLauncher
 {
     public partial class MainForm : Form
     {
-        /*Код для захвата текста*/
+        /*Code for text capture */
         [DllImport("user32.dll")]
         static extern int GetFocus();
 
@@ -45,8 +45,6 @@ namespace CSCLauncher
         const int WM_SETTEXT = 12;
         const int WM_GETTEXT = 13;
 
-        /*Конец кода для захвата текста*/
-
         private Hotkeys.GlobalHotkey ghk;
         private List<Calculation> Calcs = new List<Calculation>();
         private int cnt;
@@ -59,10 +57,6 @@ namespace CSCLauncher
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            //notifyIcon1.BalloonTipText = "My application still working...";
-            notifyIcon1.BalloonTipTitle = "CSCLauncher";
-            notifyIcon1.BalloonTipIcon = ToolTipIcon.Info;
-            notifyIcon1.Icon = new Icon("ico.ico");
             ghk.Register();
             cnt = 0;
             LoadSettings();
@@ -110,8 +104,8 @@ namespace CSCLauncher
                 delegate (object o, DoWorkEventArgs args)
                 {
                     BackgroundWorker b = o as BackgroundWorker;
-                // run calculation
-                Calcs[Calcs.Count - 1].Execute_Maxl();
+                    // run calculation
+                    Calcs[Calcs.Count - 1].Execute_Maxl();
                 });
 
                 // Job complete handler
@@ -123,7 +117,6 @@ namespace CSCLauncher
 
                     foreach (ListViewItem lvi in Calcs_LV.Items)
                     {
-                        MessageBox.Show(lvi.SubItems.Count.ToString());
                         lvi.SubItems[1].Text = Calcs[Convert.ToInt32(lvi.SubItems[0].Text) - 1].status;
                         lvi.SubItems[2].Text = Calcs[Convert.ToInt32(lvi.SubItems[0].Text) - 1].time;
                     }
@@ -141,28 +134,6 @@ namespace CSCLauncher
             base.WndProc(ref m);
         }
 
-        //private void Form1_Resize(object sender, EventArgs e)
-        //{
-        //    if (FormWindowState.Minimized == this.WindowState)
-        //    {
-        //        notifyIcon1.Visible = true;
-        //        //notifyIcon1.ShowBalloonTip(50);
-        //        //this.ShowInTaskbar = false;
-        //        this.Hide();
-        //    }
-        //    else if (FormWindowState.Normal == this.WindowState)
-        //    {
-        //        notifyIcon1.Visible = false;
-        //    }
-        //}
-        private void notifyIcon1_Click(object sender, EventArgs e)
-        {
-            //this.ShowInTaskbar = true;
-            this.Activate();
-            this.Show();
-            this.WindowState = FormWindowState.Normal;
-        }
-
         private void MaxlSearchButton_Click(object sender, EventArgs e)
         {
             openFileDialog1.Filter = "CMD File | *.cmd";
@@ -173,7 +144,7 @@ namespace CSCLauncher
         }
 
 
-        private void button1_Click(object sender, EventArgs e)
+        private void CopyLog_button_Click(object sender, EventArgs e)
         {
             if (Log_RTB.Text != null)
                 Clipboard.SetText(Log_RTB.Text);
@@ -181,7 +152,6 @@ namespace CSCLauncher
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            notifyIcon1.Icon = null;
             ArrayList serverlist = new ArrayList(this.comboBox1.Items);
             ArrayList applist = new ArrayList(this.comboBox2.Items);
             ArrayList cubelist = new ArrayList(this.comboBox3.Items);
@@ -301,16 +271,32 @@ namespace CSCLauncher
         {
             if (Calcs_LV.SelectedItems.Count > 0)
             {
-                Code_RTB.Text = Calcs[Convert.ToInt32(Calcs_LV.SelectedItems[0].Text) - 1].calcscript;
+                Calc_RTB.Text = Calcs[Convert.ToInt32(Calcs_LV.SelectedItems[0].Text) - 1].calcscript;
                 Log_RTB.Text = Calcs[Convert.ToInt32(Calcs_LV.SelectedItems[0].Text) - 1].log;
             }
             else
             {
-                Code_RTB.Text = "";
+                Calc_RTB.Text = "";
                 Log_RTB.Text = "";
             }
 
         }
+
+        private void Del_button_Click(object sender, EventArgs e)
+        {
+            if (Calcs_LV.SelectedItems.Count > 0)
+            {
+                foreach (ListViewItem lvi in Calcs_LV.SelectedItems)
+                    lvi.Remove();
+            }
+        }
+
+        private void CopyCalc_button_Click(object sender, EventArgs e)
+        {
+            if (Calc_RTB.Text != null)
+                Clipboard.SetText(Calc_RTB.Text);
+        }
+
     }
     public class Calculation
     {
@@ -328,8 +314,8 @@ namespace CSCLauncher
 
         public Calculation(string calcscript, int cnt, string PathToMaxl, string server,string appname, string cubename, string login, string password)
         {
-            /*Del comments from code*/
-            this.calcscript = Regex.Replace(calcscript, @"(?s)\s*\/\/.+?\n|\/\*.*?\*\/\s*", String.Empty);
+            
+            this.calcscript = calcscript;
             this.id = cnt;
             this.PathToMaxl = PathToMaxl;
             this.server = server;
@@ -371,7 +357,8 @@ namespace CSCLauncher
             content = content.Replace(@"$server$", server);
             content = content.Replace(@"$appname$", appname);
             content = content.Replace(@"$cubename$", cubename);
-            content = content.Replace(@"$calcscript$", calcscript);
+            /*Del comments from code*/
+            content = content.Replace(@"$calcscript$", Regex.Replace(calcscript, @"(?s)\s*\/\/.+?\n|\/\*.*?\*\/\s*", String.Empty));
 
             StreamWriter writer = new StreamWriter(AppDomain.CurrentDomain.BaseDirectory + @"\filled_template"+ id + ".mxl", false, Encoding.UTF8);
             writer.Write(content);
