@@ -6,3 +6,11 @@ c:\users\rochirov\documents\visual studio 2015\Projects\CSCLauncher\CSCLauncher\
 c:\users\rochirov\documents\visual studio 2015\Projects\CSCLauncher\CSCLauncher\obj\Release\CSCLauncher.exe
 c:\users\rochirov\documents\visual studio 2015\Projects\CSCLauncher\CSCLauncher\obj\Release\CSCLauncher.pdb
 C:\Users\rochirov\Documents\Visual Studio 2015\Projects\CSCLauncher\CSCLauncher\obj\Release\CSCLauncher.MainForm.resources
+C:\Users\rochirov\Source\Repos\CSCLauncher\CSCLauncher\bin\Release\CSCLauncher.exe.config
+C:\Users\rochirov\Source\Repos\CSCLauncher\CSCLauncher\obj\Release\CSCLauncher.exe
+C:\Users\rochirov\Source\Repos\CSCLauncher\CSCLauncher\obj\Release\CSCLauncher.pdb
+C:\Users\rochirov\Source\Repos\CSCLauncher\CSCLauncher\bin\Release\CSCLauncher.exe
+C:\Users\rochirov\Source\Repos\CSCLauncher\CSCLauncher\bin\Release\CSCLauncher.pdb
+C:\Users\rochirov\Source\Repos\CSCLauncher\CSCLauncher\obj\Release\CSCLauncher.MainForm.resources
+C:\Users\rochirov\Source\Repos\CSCLauncher\CSCLauncher\obj\Release\CSCLauncher.Properties.Resources.resources
+C:\Users\rochirov\Source\Repos\CSCLauncher\CSCLauncher\obj\Release\CSCLauncher.csproj.GenerateResource.Cache
