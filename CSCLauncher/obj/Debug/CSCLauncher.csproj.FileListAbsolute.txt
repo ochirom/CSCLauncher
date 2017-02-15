@@ -1,12 +1,3 @@
-c:\users\rochirov\documents\visual studio 2015\Projects\CSCLauncher\CSCLauncher\bin\Debug\CSCLauncher.exe.config
-c:\users\rochirov\documents\visual studio 2015\Projects\CSCLauncher\CSCLauncher\bin\Debug\CSCLauncher.exe
-c:\users\rochirov\documents\visual studio 2015\Projects\CSCLauncher\CSCLauncher\bin\Debug\CSCLauncher.pdb
-c:\users\rochirov\documents\visual studio 2015\Projects\CSCLauncher\CSCLauncher\obj\Debug\CSCLauncher.csprojResolveAssemblyReference.cache
-c:\users\rochirov\documents\visual studio 2015\Projects\CSCLauncher\CSCLauncher\obj\Debug\CSCLauncher.Properties.Resources.resources
-c:\users\rochirov\documents\visual studio 2015\Projects\CSCLauncher\CSCLauncher\obj\Debug\CSCLauncher.csproj.GenerateResource.Cache
-c:\users\rochirov\documents\visual studio 2015\Projects\CSCLauncher\CSCLauncher\obj\Debug\CSCLauncher.exe
-c:\users\rochirov\documents\visual studio 2015\Projects\CSCLauncher\CSCLauncher\obj\Debug\CSCLauncher.pdb
-C:\Users\rochirov\Documents\Visual Studio 2015\Projects\CSCLauncher\CSCLauncher\obj\Debug\CSCLauncher.MainForm.resources
 C:\Users\rochirov\Source\Repos\CSCLauncher\CSCLauncher\bin\Debug\CSCLauncher.exe.config
 C:\Users\rochirov\Source\Repos\CSCLauncher\CSCLauncher\obj\Debug\CSCLauncher.exe
 C:\Users\rochirov\Source\Repos\CSCLauncher\CSCLauncher\obj\Debug\CSCLauncher.pdb

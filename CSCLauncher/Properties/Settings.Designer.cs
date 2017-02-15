@@ -26,12 +26,12 @@ namespace CSCLauncher.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string StartMaxlPath {
+        public string ClientPath {
             get {
-                return ((string)(this["StartMaxlPath"]));
+                return ((string)(this["ClientPath"]));
             }
             set {
-                this["StartMaxlPath"] = value;
+                this["ClientPath"] = value;
             }
         }
         
@@ -87,6 +87,18 @@ namespace CSCLauncher.Properties {
             }
             set {
                 this["Password"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int Mode {
+            get {
+                return ((int)(this["Mode"]));
+            }
+            set {
+                this["Mode"] = value;
             }
         }
     }

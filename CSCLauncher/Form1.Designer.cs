@@ -28,27 +28,28 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.PathToMaxlTextBox = new System.Windows.Forms.TextBox();
+            this.PathToClient_CB = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.MaxlSearchButton = new System.Windows.Forms.Button();
-            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.comboBox2 = new System.Windows.Forms.ComboBox();
-            this.comboBox3 = new System.Windows.Forms.ComboBox();
-            this.comboBox4 = new System.Windows.Forms.ComboBox();
-            this.comboBox5 = new System.Windows.Forms.ComboBox();
+            this.Server_CB = new System.Windows.Forms.ComboBox();
+            this.Appname_CB = new System.Windows.Forms.ComboBox();
+            this.Cubename_CB = new System.Windows.Forms.ComboBox();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.linkLabel2 = new System.Windows.Forms.LinkLabel();
             this.linkLabel3 = new System.Windows.Forms.LinkLabel();
             this.linkLabel4 = new System.Windows.Forms.LinkLabel();
-            this.linkLabel5 = new System.Windows.Forms.LinkLabel();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.SettingsPage = new System.Windows.Forms.TabPage();
+            this.Mode_LBL = new System.Windows.Forms.Label();
+            this.Mode_CB = new System.Windows.Forms.ComboBox();
+            this.linkLabel5 = new System.Windows.Forms.LinkLabel();
+            this.Password_CB = new System.Windows.Forms.ComboBox();
+            this.Login_CB = new System.Windows.Forms.ComboBox();
+            this.label6 = new System.Windows.Forms.Label();
             this.ResultPage = new System.Windows.Forms.TabPage();
             this.CopyCalc_button = new System.Windows.Forms.Button();
             this.Del_button = new System.Windows.Forms.Button();
@@ -59,32 +60,32 @@
             this.Status = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.Time = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.Calc_RTB = new System.Windows.Forms.RichTextBox();
+            this.EssbaseClient_folderBD = new System.Windows.Forms.FolderBrowserDialog();
             this.tabControl1.SuspendLayout();
             this.SettingsPage.SuspendLayout();
             this.ResultPage.SuspendLayout();
             this.SuspendLayout();
             // 
-            // PathToMaxlTextBox
+            // PathToClient_CB
             // 
-            this.PathToMaxlTextBox.Location = new System.Drawing.Point(149, 33);
-            this.PathToMaxlTextBox.Name = "PathToMaxlTextBox";
-            this.PathToMaxlTextBox.Size = new System.Drawing.Size(232, 20);
-            this.PathToMaxlTextBox.TabIndex = 0;
-            this.PathToMaxlTextBox.Text = "C:\\Oracle\\Middleware\\EPMSystem11R1\\products\\Essbase\\EssbaseClient\\bin\\startMaxl.c" +
-    "md";
+            this.PathToClient_CB.Location = new System.Drawing.Point(165, 33);
+            this.PathToClient_CB.Name = "PathToClient_CB";
+            this.PathToClient_CB.Size = new System.Drawing.Size(232, 20);
+            this.PathToClient_CB.TabIndex = 0;
+            this.PathToClient_CB.Text = "C:\\Oracle\\Middleware\\EPMSystem11R1\\products\\Essbase\\EssbaseClient\\bin\\";
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(34, 36);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(109, 13);
+            this.label1.Size = new System.Drawing.Size(129, 13);
             this.label1.TabIndex = 1;
-            this.label1.Text = "Path to startMaxl.cmd";
+            this.label1.Text = "Path to EssbaseClient\\bin";
             // 
             // MaxlSearchButton
             // 
-            this.MaxlSearchButton.Location = new System.Drawing.Point(387, 31);
+            this.MaxlSearchButton.Location = new System.Drawing.Point(403, 31);
             this.MaxlSearchButton.Name = "MaxlSearchButton";
             this.MaxlSearchButton.Size = new System.Drawing.Size(75, 23);
             this.MaxlSearchButton.TabIndex = 2;
@@ -92,14 +93,10 @@
             this.MaxlSearchButton.UseVisualStyleBackColor = true;
             this.MaxlSearchButton.Click += new System.EventHandler(this.MaxlSearchButton_Click);
             // 
-            // openFileDialog1
-            // 
-            this.openFileDialog1.FileName = "openFileDialog1";
-            // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(34, 59);
+            this.label2.Location = new System.Drawing.Point(34, 87);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(38, 13);
             this.label2.TabIndex = 3;
@@ -108,7 +105,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(34, 84);
+            this.label3.Location = new System.Drawing.Point(34, 112);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(55, 13);
             this.label3.TabIndex = 4;
@@ -117,7 +114,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(34, 107);
+            this.label4.Location = new System.Drawing.Point(34, 135);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(61, 13);
             this.label4.TabIndex = 5;
@@ -126,77 +123,46 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(34, 132);
+            this.label5.Location = new System.Drawing.Point(34, 160);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(33, 13);
             this.label5.TabIndex = 6;
             this.label5.Text = "Login";
             // 
-            // label6
+            // Server_CB
             // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(34, 156);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(53, 13);
-            this.label6.TabIndex = 7;
-            this.label6.Text = "Password";
+            this.Server_CB.FormattingEnabled = true;
+            this.Server_CB.Location = new System.Drawing.Point(165, 84);
+            this.Server_CB.Name = "Server_CB";
+            this.Server_CB.Size = new System.Drawing.Size(232, 21);
+            this.Server_CB.Sorted = true;
+            this.Server_CB.TabIndex = 17;
+            this.Server_CB.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Server_CB_KeyDown);
             // 
-            // comboBox1
+            // Appname_CB
             // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(149, 56);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(232, 21);
-            this.comboBox1.Sorted = true;
-            this.comboBox1.TabIndex = 17;
-            this.comboBox1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.comboBox1_KeyDown);
+            this.Appname_CB.FormattingEnabled = true;
+            this.Appname_CB.Location = new System.Drawing.Point(165, 109);
+            this.Appname_CB.Name = "Appname_CB";
+            this.Appname_CB.Size = new System.Drawing.Size(232, 21);
+            this.Appname_CB.Sorted = true;
+            this.Appname_CB.TabIndex = 18;
+            this.Appname_CB.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Appname_CB_KeyDown);
             // 
-            // comboBox2
+            // Cubename_CB
             // 
-            this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.Location = new System.Drawing.Point(149, 81);
-            this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(232, 21);
-            this.comboBox2.Sorted = true;
-            this.comboBox2.TabIndex = 18;
-            this.comboBox2.KeyDown += new System.Windows.Forms.KeyEventHandler(this.comboBox2_KeyDown);
-            // 
-            // comboBox3
-            // 
-            this.comboBox3.FormattingEnabled = true;
-            this.comboBox3.Location = new System.Drawing.Point(149, 104);
-            this.comboBox3.Name = "comboBox3";
-            this.comboBox3.Size = new System.Drawing.Size(232, 21);
-            this.comboBox3.Sorted = true;
-            this.comboBox3.TabIndex = 19;
-            this.comboBox3.KeyDown += new System.Windows.Forms.KeyEventHandler(this.comboBox3_KeyDown);
-            // 
-            // comboBox4
-            // 
-            this.comboBox4.FormattingEnabled = true;
-            this.comboBox4.Location = new System.Drawing.Point(149, 129);
-            this.comboBox4.Name = "comboBox4";
-            this.comboBox4.Size = new System.Drawing.Size(232, 21);
-            this.comboBox4.Sorted = true;
-            this.comboBox4.TabIndex = 20;
-            this.comboBox4.KeyDown += new System.Windows.Forms.KeyEventHandler(this.comboBox4_KeyDown);
-            // 
-            // comboBox5
-            // 
-            this.comboBox5.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
-            this.comboBox5.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.comboBox5.FormattingEnabled = true;
-            this.comboBox5.Location = new System.Drawing.Point(149, 153);
-            this.comboBox5.Name = "comboBox5";
-            this.comboBox5.Size = new System.Drawing.Size(232, 21);
-            this.comboBox5.Sorted = true;
-            this.comboBox5.TabIndex = 21;
-            this.comboBox5.KeyDown += new System.Windows.Forms.KeyEventHandler(this.comboBox5_KeyDown);
+            this.Cubename_CB.FormattingEnabled = true;
+            this.Cubename_CB.Location = new System.Drawing.Point(165, 132);
+            this.Cubename_CB.Name = "Cubename_CB";
+            this.Cubename_CB.Size = new System.Drawing.Size(232, 21);
+            this.Cubename_CB.Sorted = true;
+            this.Cubename_CB.TabIndex = 19;
+            this.Cubename_CB.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Cubename_CB_KeyDown);
             // 
             // linkLabel1
             // 
             this.linkLabel1.AutoSize = true;
-            this.linkLabel1.Location = new System.Drawing.Point(384, 59);
+            this.linkLabel1.Location = new System.Drawing.Point(400, 87);
             this.linkLabel1.Name = "linkLabel1";
             this.linkLabel1.Size = new System.Drawing.Size(14, 13);
             this.linkLabel1.TabIndex = 22;
@@ -207,7 +173,7 @@
             // linkLabel2
             // 
             this.linkLabel2.AutoSize = true;
-            this.linkLabel2.Location = new System.Drawing.Point(384, 84);
+            this.linkLabel2.Location = new System.Drawing.Point(400, 112);
             this.linkLabel2.Name = "linkLabel2";
             this.linkLabel2.Size = new System.Drawing.Size(14, 13);
             this.linkLabel2.TabIndex = 23;
@@ -218,7 +184,7 @@
             // linkLabel3
             // 
             this.linkLabel3.AutoSize = true;
-            this.linkLabel3.Location = new System.Drawing.Point(384, 107);
+            this.linkLabel3.Location = new System.Drawing.Point(400, 135);
             this.linkLabel3.Name = "linkLabel3";
             this.linkLabel3.Size = new System.Drawing.Size(14, 13);
             this.linkLabel3.TabIndex = 24;
@@ -229,24 +195,13 @@
             // linkLabel4
             // 
             this.linkLabel4.AutoSize = true;
-            this.linkLabel4.Location = new System.Drawing.Point(384, 132);
+            this.linkLabel4.Location = new System.Drawing.Point(400, 160);
             this.linkLabel4.Name = "linkLabel4";
             this.linkLabel4.Size = new System.Drawing.Size(14, 13);
             this.linkLabel4.TabIndex = 25;
             this.linkLabel4.TabStop = true;
             this.linkLabel4.Text = "X";
             this.linkLabel4.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel4_LinkClicked);
-            // 
-            // linkLabel5
-            // 
-            this.linkLabel5.AutoSize = true;
-            this.linkLabel5.Location = new System.Drawing.Point(384, 156);
-            this.linkLabel5.Name = "linkLabel5";
-            this.linkLabel5.Size = new System.Drawing.Size(14, 13);
-            this.linkLabel5.TabIndex = 26;
-            this.linkLabel5.TabStop = true;
-            this.linkLabel5.Text = "X";
-            this.linkLabel5.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel5_LinkClicked);
             // 
             // tabControl1
             // 
@@ -263,8 +218,10 @@
             // 
             // SettingsPage
             // 
+            this.SettingsPage.Controls.Add(this.Mode_LBL);
+            this.SettingsPage.Controls.Add(this.Mode_CB);
             this.SettingsPage.Controls.Add(this.linkLabel5);
-            this.SettingsPage.Controls.Add(this.PathToMaxlTextBox);
+            this.SettingsPage.Controls.Add(this.PathToClient_CB);
             this.SettingsPage.Controls.Add(this.linkLabel4);
             this.SettingsPage.Controls.Add(this.label1);
             this.SettingsPage.Controls.Add(this.linkLabel3);
@@ -273,14 +230,14 @@
             this.SettingsPage.Controls.Add(this.label2);
             this.SettingsPage.Controls.Add(this.linkLabel1);
             this.SettingsPage.Controls.Add(this.label3);
-            this.SettingsPage.Controls.Add(this.comboBox5);
+            this.SettingsPage.Controls.Add(this.Password_CB);
             this.SettingsPage.Controls.Add(this.label4);
-            this.SettingsPage.Controls.Add(this.comboBox4);
+            this.SettingsPage.Controls.Add(this.Login_CB);
             this.SettingsPage.Controls.Add(this.label5);
-            this.SettingsPage.Controls.Add(this.comboBox3);
+            this.SettingsPage.Controls.Add(this.Cubename_CB);
             this.SettingsPage.Controls.Add(this.label6);
-            this.SettingsPage.Controls.Add(this.comboBox2);
-            this.SettingsPage.Controls.Add(this.comboBox1);
+            this.SettingsPage.Controls.Add(this.Appname_CB);
+            this.SettingsPage.Controls.Add(this.Server_CB);
             this.SettingsPage.Location = new System.Drawing.Point(4, 22);
             this.SettingsPage.Name = "SettingsPage";
             this.SettingsPage.Padding = new System.Windows.Forms.Padding(3);
@@ -288,6 +245,68 @@
             this.SettingsPage.TabIndex = 0;
             this.SettingsPage.Text = "Settings";
             this.SettingsPage.UseVisualStyleBackColor = true;
+            // 
+            // Mode_LBL
+            // 
+            this.Mode_LBL.AutoSize = true;
+            this.Mode_LBL.Location = new System.Drawing.Point(34, 61);
+            this.Mode_LBL.Name = "Mode_LBL";
+            this.Mode_LBL.Size = new System.Drawing.Size(34, 13);
+            this.Mode_LBL.TabIndex = 28;
+            this.Mode_LBL.Text = "Mode";
+            // 
+            // Mode_CB
+            // 
+            this.Mode_CB.Items.AddRange(new object[] {
+            "EssCMD",
+            "MaxL"});
+            this.Mode_CB.Location = new System.Drawing.Point(165, 58);
+            this.Mode_CB.Name = "Mode_CB";
+            this.Mode_CB.Size = new System.Drawing.Size(232, 21);
+            this.Mode_CB.Sorted = true;
+            this.Mode_CB.TabIndex = 27;
+            // 
+            // linkLabel5
+            // 
+            this.linkLabel5.AutoSize = true;
+            this.linkLabel5.Location = new System.Drawing.Point(400, 184);
+            this.linkLabel5.Name = "linkLabel5";
+            this.linkLabel5.Size = new System.Drawing.Size(14, 13);
+            this.linkLabel5.TabIndex = 26;
+            this.linkLabel5.TabStop = true;
+            this.linkLabel5.Text = "X";
+            this.linkLabel5.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel5_LinkClicked);
+            // 
+            // Password_CB
+            // 
+            this.Password_CB.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.Password_CB.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.Password_CB.FormattingEnabled = true;
+            this.Password_CB.Location = new System.Drawing.Point(165, 181);
+            this.Password_CB.Name = "Password_CB";
+            this.Password_CB.Size = new System.Drawing.Size(232, 21);
+            this.Password_CB.Sorted = true;
+            this.Password_CB.TabIndex = 21;
+            this.Password_CB.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Password_CB_KeyDown);
+            // 
+            // Login_CB
+            // 
+            this.Login_CB.FormattingEnabled = true;
+            this.Login_CB.Location = new System.Drawing.Point(165, 157);
+            this.Login_CB.Name = "Login_CB";
+            this.Login_CB.Size = new System.Drawing.Size(232, 21);
+            this.Login_CB.Sorted = true;
+            this.Login_CB.TabIndex = 20;
+            this.Login_CB.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Login_CB_KeyDown);
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(34, 184);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(53, 13);
+            this.label6.TabIndex = 7;
+            this.label6.Text = "Password";
             // 
             // ResultPage
             // 
@@ -407,25 +426,20 @@
         }
 
         #endregion
-        private System.Windows.Forms.TextBox PathToMaxlTextBox;
+        private System.Windows.Forms.TextBox PathToClient_CB;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button MaxlSearchButton;
-        private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.ComboBox comboBox1;
-        private System.Windows.Forms.ComboBox comboBox2;
-        private System.Windows.Forms.ComboBox comboBox3;
-        private System.Windows.Forms.ComboBox comboBox4;
-        private System.Windows.Forms.ComboBox comboBox5;
+        private System.Windows.Forms.ComboBox Server_CB;
+        private System.Windows.Forms.ComboBox Appname_CB;
+        private System.Windows.Forms.ComboBox Cubename_CB;
         private System.Windows.Forms.LinkLabel linkLabel1;
         private System.Windows.Forms.LinkLabel linkLabel2;
         private System.Windows.Forms.LinkLabel linkLabel3;
         private System.Windows.Forms.LinkLabel linkLabel4;
-        private System.Windows.Forms.LinkLabel linkLabel5;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage SettingsPage;
         private System.Windows.Forms.TabPage ResultPage;
@@ -438,7 +452,13 @@
         private System.Windows.Forms.ColumnHeader Time;
         private System.Windows.Forms.Button Del_button;
         private System.Windows.Forms.Button CopyCalc_button;
-
+        private System.Windows.Forms.LinkLabel linkLabel5;
+        private System.Windows.Forms.ComboBox Password_CB;
+        private System.Windows.Forms.ComboBox Login_CB;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.ComboBox Mode_CB;
+        private System.Windows.Forms.Label Mode_LBL;
+        private System.Windows.Forms.FolderBrowserDialog EssbaseClient_folderBD;
     }
 }
 

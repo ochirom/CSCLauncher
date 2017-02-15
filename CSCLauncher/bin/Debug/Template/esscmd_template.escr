@@ -1,0 +1,6 @@
+﻿LOGIN "$server$" "$admin$" "$password$";
+SELECT "$appname$" "$cubename$";
+OUTPUT 1 $logfile$;
+RUNCALC 3 $calcfile$;
+OUTPUT 3;
+EXIT;

@@ -1,18 +1,12 @@
 ﻿using System;
+using System.IO;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.IO;
 using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
-using Hotkeys;
-using System.Diagnostics;
+
 
 namespace CSCLauncher
 {
@@ -52,7 +46,7 @@ namespace CSCLauncher
         public MainForm()
         {
             InitializeComponent();
-            ghk = new Hotkeys.GlobalHotkey(Constants.ALT, Keys.L, this);
+            ghk = new Hotkeys.GlobalHotkey(Hotkeys.Constants.ALT, Keys.L, this);
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -60,6 +54,23 @@ namespace CSCLauncher
             ghk.Register();
             cnt = 0;
             LoadSettings();
+            CreateFolders();
+            
+        }
+
+        private void CreateFolders()
+        {
+            if (!Directory.Exists(AppDomain.CurrentDomain.BaseDirectory + @"\Logs"))
+            {
+                try
+                {
+                    Directory.CreateDirectory(AppDomain.CurrentDomain.BaseDirectory + @"\Log");
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show("Folders creation failed: {0}", e.ToString());
+                }
+            }
         }
 
         private void HandleHotkey()
@@ -88,8 +99,12 @@ namespace CSCLauncher
             {
                 cnt++;
 
-                Calcs.Add(new Calculation(builder.ToString(), cnt, PathToMaxlTextBox.Text, comboBox1.Text, comboBox2.Text, comboBox3.Text, comboBox4.Text, comboBox5.Text));
-                
+                if (Mode_CB.SelectedIndex == 0) //If turned on EssCMD mode
+                    Calcs.Add(new EssCMDCalculation(builder.ToString(), PathToClient_CB.Text, Server_CB.Text, Appname_CB.Text, Cubename_CB.Text, Login_CB.Text, Password_CB.Text));
+                else //MaxL mode
+                    Calcs.Add(new MaxlCalculation(builder.ToString(), PathToClient_CB.Text, Server_CB.Text, Appname_CB.Text, Cubename_CB.Text, Login_CB.Text, Password_CB.Text));
+
+
                 Calcs_LV.Items.Add(new ListViewItem(cnt.ToString()));
                 Calcs_LV.Items[Calcs_LV.Items.Count - 1].SubItems.Add("Running");
                 Calcs_LV.Items[Calcs_LV.Items.Count - 1].SubItems.Add("-");
@@ -105,7 +120,8 @@ namespace CSCLauncher
                 {
                     BackgroundWorker b = o as BackgroundWorker;
                     // run calculation
-                    Calcs[Calcs.Count - 1].Execute_Maxl();
+                    Calcs[Calcs.Count - 1].Execute();
+                    
                 });
 
                 // Job complete handler
@@ -113,7 +129,9 @@ namespace CSCLauncher
                 delegate (object o, RunWorkerCompletedEventArgs args)
                 {
                     if (Calcs_LV.SelectedItems.Count > 0)
+                    {
                         Log_RTB.Text = Calcs[Convert.ToInt32(Calcs_LV.SelectedItems[0].Text) - 1].log;
+                    }
 
                     foreach (ListViewItem lvi in Calcs_LV.Items)
                     {
@@ -136,10 +154,9 @@ namespace CSCLauncher
 
         private void MaxlSearchButton_Click(object sender, EventArgs e)
         {
-            openFileDialog1.Filter = "CMD File | *.cmd";
-            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            if (EssbaseClient_folderBD.ShowDialog() == DialogResult.OK)
             {
-                PathToMaxlTextBox.Text = openFileDialog1.FileName;
+                PathToClient_CB.Text = EssbaseClient_folderBD.SelectedPath;
             }
         }
 
@@ -152,119 +169,117 @@ namespace CSCLauncher
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            ArrayList serverlist = new ArrayList(this.comboBox1.Items);
-            ArrayList applist = new ArrayList(this.comboBox2.Items);
-            ArrayList cubelist = new ArrayList(this.comboBox3.Items);
-            ArrayList loginlist = new ArrayList(this.comboBox4.Items);
-            ArrayList passwordlist = new ArrayList(this.comboBox5.Items);
+            ArrayList serverlist = new ArrayList(this.Server_CB.Items);
+            ArrayList applist = new ArrayList(this.Appname_CB.Items);
+            ArrayList cubelist = new ArrayList(this.Cubename_CB.Items);
+            ArrayList loginlist = new ArrayList(this.Login_CB.Items);
+            ArrayList passwordlist = new ArrayList(this.Password_CB.Items);
             Properties.Settings.Default.Server = serverlist;
             Properties.Settings.Default.App = applist;
             Properties.Settings.Default.Cube = cubelist;
             Properties.Settings.Default.Login = loginlist ;
             Properties.Settings.Default.Password = passwordlist;
-            Properties.Settings.Default.StartMaxlPath = PathToMaxlTextBox.Text;
+            Properties.Settings.Default.ClientPath = PathToClient_CB.Text;
+            Properties.Settings.Default.Mode = Mode_CB.SelectedIndex;
             Properties.Settings.Default.Save();
         }
         private void LoadSettings()
         {
             if (Properties.Settings.Default.Server != null)
             {
-                this.comboBox1.Items.AddRange(Properties.Settings.Default.Server.ToArray());
-                //this.comboBox1.SelectedIndex = 0;
+                this.Server_CB.Items.AddRange(Properties.Settings.Default.Server.ToArray());
             }
             if (Properties.Settings.Default.App != null)
             {
-                this.comboBox2.Items.AddRange(Properties.Settings.Default.App.ToArray());
-                //this.comboBox2.SelectedIndex = 0;
+                this.Appname_CB.Items.AddRange(Properties.Settings.Default.App.ToArray());
             }
             if (Properties.Settings.Default.Cube != null)
             {
-                this.comboBox3.Items.AddRange(Properties.Settings.Default.Cube.ToArray());
-                //this.comboBox3.SelectedIndex = 0;
+                this.Cubename_CB.Items.AddRange(Properties.Settings.Default.Cube.ToArray());
             }
             if (Properties.Settings.Default.Login != null)
             { 
-                this.comboBox4.Items.AddRange(Properties.Settings.Default.Login.ToArray());
-                //this.comboBox4.SelectedIndex = 0;
+                this.Login_CB.Items.AddRange(Properties.Settings.Default.Login.ToArray());
             }
             if (Properties.Settings.Default.Password != null)
             { 
-                this.comboBox5.Items.AddRange(Properties.Settings.Default.Password.ToArray());
-                //this.comboBox5.SelectedIndex = 0;
+                this.Password_CB.Items.AddRange(Properties.Settings.Default.Password.ToArray());
             }
-            if (Properties.Settings.Default.StartMaxlPath != null)
+            if (Properties.Settings.Default.ClientPath != null)
             {
-                PathToMaxlTextBox.Text = Properties.Settings.Default.StartMaxlPath;
+                PathToClient_CB.Text = Properties.Settings.Default.ClientPath;
             }
+
+            Mode_CB.SelectedIndex = Properties.Settings.Default.Mode;
         }
 
-        private void comboBox1_KeyDown(object sender, KeyEventArgs e)
+        private void Server_CB_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
-                if (!comboBox1.Items.Contains(comboBox1.Text) && comboBox1.Text != "")
-                    comboBox1.Items.Add(comboBox1.Text);
+                if (!Server_CB.Items.Contains(Server_CB.Text) && Server_CB.Text != "")
+                    Server_CB.Items.Add(Server_CB.Text);
         }
 
-        private void comboBox2_KeyDown(object sender, KeyEventArgs e)
+        private void Appname_CB_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
-                if (!comboBox2.Items.Contains(comboBox2.Text) && comboBox2.Text != "")
-                comboBox2.Items.Add(comboBox2.Text);
+                if (!Appname_CB.Items.Contains(Appname_CB.Text) && Appname_CB.Text != "")
+                Appname_CB.Items.Add(Appname_CB.Text);
         }
 
-        private void comboBox3_KeyDown(object sender, KeyEventArgs e)
+        private void Cubename_CB_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
-                if (!comboBox3.Items.Contains(comboBox3.Text) && comboBox3.Text != "")
-                comboBox3.Items.Add(comboBox3.Text);
+                if (!Cubename_CB.Items.Contains(Cubename_CB.Text) && Cubename_CB.Text != "")
+                Cubename_CB.Items.Add(Cubename_CB.Text);
         }
 
-        private void comboBox4_KeyDown(object sender, KeyEventArgs e)
+        private void Login_CB_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
-                if (!comboBox4.Items.Contains(comboBox4.Text) && comboBox4.Text != "")
-                comboBox4.Items.Add(comboBox4.Text);
+                if (!Login_CB.Items.Contains(Login_CB.Text) && Login_CB.Text != "")
+                Login_CB.Items.Add(Login_CB.Text);
         }
 
-        private void comboBox5_KeyDown(object sender, KeyEventArgs e)
+        private void Password_CB_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
-                if (!comboBox5.Items.Contains(comboBox5.Text) && comboBox5.Text != "")
-                comboBox5.Items.Add(comboBox5.Text);
+                if (!Password_CB.Items.Contains(Password_CB.Text) && Password_CB.Text != "")
+                Password_CB.Items.Add(Password_CB.Text);
         }
 
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            if (comboBox1.Text != "")
+            if (Server_CB.Text != "")
             { 
-                comboBox1.Items.Remove(comboBox1.SelectedItem);
-                comboBox1.Text = "";
+                Server_CB.Items.Remove(Server_CB.SelectedItem);
+                Server_CB.Text = "";
             }
         }
 
         private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            if (comboBox2.Text != "")
-                comboBox2.Items.Remove(comboBox2.SelectedItem);
+            if (Appname_CB.Text != "")
+                Appname_CB.Items.Remove(Appname_CB.SelectedItem);
         }
 
         private void linkLabel3_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            if (comboBox3.Text != "")
-                comboBox3.Items.Remove(comboBox3.SelectedItem);
+            if (Cubename_CB.Text != "")
+                Cubename_CB.Items.Remove(Cubename_CB.SelectedItem);
         }
 
         private void linkLabel4_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            if (comboBox4.Text != "")
-                comboBox4.Items.Remove(comboBox4.SelectedItem);
+            if (Login_CB.Text != "")
+                Login_CB.Items.Remove(Login_CB.SelectedItem);
         }
 
         private void linkLabel5_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            if (comboBox5.Text != "")
-                comboBox5.Items.Remove(comboBox5.SelectedItem);
+            if (Password_CB.Text != "")
+                Password_CB.Items.Remove(Password_CB.SelectedItem);
         }
 
         private void Calcs_LV_SelectedIndexChanged(object sender, EventArgs e)
@@ -296,147 +311,6 @@ namespace CSCLauncher
             if (Calc_RTB.Text != null)
                 Clipboard.SetText(Calc_RTB.Text);
         }
-
     }
-    public class Calculation
-    {
-        public string calcscript;
-        private int id;
-        public string log;
-        public string status;
-        public string time;
-        private string PathToMaxl;
-        private string server;
-        private string appname;
-        private string cubename;
-        private string login;
-        private string password;
-
-        public Calculation(string calcscript, int cnt, string PathToMaxl, string server,string appname, string cubename, string login, string password)
-        {
-            
-            this.calcscript = calcscript;
-            this.id = cnt;
-            this.PathToMaxl = PathToMaxl;
-            this.server = server;
-            this.appname = appname;
-            this.cubename = cubename;
-            this.login = login;
-            this.password = password;
-        }
-
-        public void Execute_Maxl()
-        {
-            Create_MaxL_Template();
-            string command = "call " + PathToMaxl + @" """ + AppDomain.CurrentDomain.BaseDirectory + @"\filled_template" + id + @".mxl""";
-
-            Process cmd = new Process();
-            cmd.StartInfo.FileName = "cmd.exe";
-            cmd.StartInfo.RedirectStandardInput = true;
-            cmd.StartInfo.RedirectStandardOutput = true;
-            cmd.StartInfo.CreateNoWindow = true;
-            cmd.StartInfo.UseShellExecute = false;
-            cmd.Start();
-
-            cmd.StandardInput.WriteLine(command);
-            cmd.StandardInput.Flush();
-            cmd.StandardInput.Close();
-            this.log = cmd.StandardOutput.ReadToEnd();
-            Check_Status();
-
-
-        }
-
-        private void Create_MaxL_Template()
-        {
-            StreamReader reader = new StreamReader(AppDomain.CurrentDomain.BaseDirectory + @"\template.mxl");
-            string content = reader.ReadToEnd();
-            reader.Close();
-            content = content.Replace(@"$admin$", login);
-            content = content.Replace(@"$password$", password);
-            content = content.Replace(@"$server$", server);
-            content = content.Replace(@"$appname$", appname);
-            content = content.Replace(@"$cubename$", cubename);
-            /*Del comments from code*/
-            content = content.Replace(@"$calcscript$", Regex.Replace(calcscript, @"(?s)\s*\/\/.+?\n|\/\*.*?\*\/\s*", String.Empty));
-
-            StreamWriter writer = new StreamWriter(AppDomain.CurrentDomain.BaseDirectory + @"\filled_template"+ id + ".mxl", false, Encoding.UTF8);
-            writer.Write(content);
-            writer.Close();
-        }
-
-        private void Check_Status()
-        {
-            if (log.Contains("Calculation executed"))
-            {
-                this.status = "Success";
-                Match calctime = Regex.Match(log, @"Total Calc Elapsed Time : \[.*\] seconds.");
-                if (calctime.Success)
-                {
-                    this.time = Regex.Match(calctime.Value, @"\[(.*)\]").Value;
-                }
-            }
-            else
-            {
-                this.status = "Error";
-            }
-        }
-    }
-}
-
-
-
-    namespace Hotkeys
-{
-    public class GlobalHotkey
-    {
-        private int modifier;
-        private int key;
-        private IntPtr hWnd;
-        private int id;
-
-        public GlobalHotkey(int modifier, Keys key, Form form)
-        {
-            this.modifier = modifier;
-            this.key = (int)key;
-            this.hWnd = form.Handle;
-            id = this.GetHashCode();
-        }
-
-        public bool Register()
-        {
-            return RegisterHotKey(hWnd, id, modifier, key);
-        }
-
-        public bool Unregiser()
-        {
-            return UnregisterHotKey(hWnd, id);
-        }
-
-        public override int GetHashCode()
-        {
-            return modifier ^ key ^ hWnd.ToInt32();
-        }
-
-        [DllImport("user32.dll")]
-        private static extern bool RegisterHotKey(IntPtr hWnd, int id, int fsModifiers, int vk);
-
-        [DllImport("user32.dll")]
-        private static extern bool UnregisterHotKey(IntPtr hWnd, int id);
-    }
-
-    public static class Constants
-    {
-        //modifiers
-        public const int NOMOD = 0x0000;
-        public const int ALT = 0x0001;
-        public const int CTRL = 0x0002;
-        public const int SHIFT = 0x0004;
-        public const int WIN = 0x0008;
-
-        //windows message id for hotkey
-        public const int WM_HOTKEY_MSG_ID = 0x0312;
-    }
-
 
 }
