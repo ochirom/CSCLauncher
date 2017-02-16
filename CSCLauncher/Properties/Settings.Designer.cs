@@ -92,7 +92,6 @@ namespace CSCLauncher.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
         public int Mode {
             get {
                 return ((int)(this["Mode"]));

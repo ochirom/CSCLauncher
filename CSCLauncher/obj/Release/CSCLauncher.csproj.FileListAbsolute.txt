@@ -14,3 +14,6 @@ C:\Users\rochirov\Source\Repos\CSCLauncher\CSCLauncher\bin\Release\CSCLauncher.p
 C:\Users\rochirov\Source\Repos\CSCLauncher\CSCLauncher\obj\Release\CSCLauncher.MainForm.resources
 C:\Users\rochirov\Source\Repos\CSCLauncher\CSCLauncher\obj\Release\CSCLauncher.Properties.Resources.resources
 C:\Users\rochirov\Source\Repos\CSCLauncher\CSCLauncher\obj\Release\CSCLauncher.csproj.GenerateResource.Cache
+C:\Users\rochirov\Source\Repos\CSCLauncher\bin\CSCLauncher.exe.config
+C:\Users\rochirov\Source\Repos\CSCLauncher\bin\CSCLauncher.exe
+C:\Users\rochirov\Source\Repos\CSCLauncher\bin\CSCLauncher.pdb

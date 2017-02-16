@@ -2,7 +2,7 @@
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
 
-namespace Hotkeys
+namespace CSCLauncher
 {
     public class GlobalHotkey
     {

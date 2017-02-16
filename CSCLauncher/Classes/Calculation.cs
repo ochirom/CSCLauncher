@@ -6,6 +6,7 @@ using System.IO;
 using System.Windows.Forms;
 using System.Threading;
 
+
 namespace CSCLauncher
 {
     public class Calculation
@@ -15,22 +16,18 @@ namespace CSCLauncher
         public string status;
         public string time;
         protected string PathToClient;
-        protected string server;
-        protected string appname;
-        protected string cubename;
-        protected string login;
-        protected string password;
+        protected ConnectionData credentials = new ConnectionData();
 
-        public Calculation(string calcscript, string PathToClient, string server, string appname, string cubename, string login, string password)
+        public Calculation(string calcscript, string PathToClient, ConnectionData credentials)
         {
 
             this.calcscript = calcscript;
             this.PathToClient = PathToClient;
-            this.server = server;
-            this.appname = appname;
-            this.cubename = cubename;
-            this.login = login;
-            this.password = password;
+            this.credentials.server = credentials.server;
+            this.credentials.appname = credentials.appname;
+            this.credentials.cubename = credentials.cubename;
+            this.credentials.login = credentials.login;
+            this.credentials.password = credentials.password;
             this.log = "";
             this.status = "";
             this.time = "";
@@ -38,14 +35,11 @@ namespace CSCLauncher
 
         public virtual void Execute() {}
 
-        //public virtual void Create_Template() {}
-
-        //public virtual void Check_Status() {}
     }
 
     public class MaxlCalculation : Calculation
     {
-        public MaxlCalculation(string calcscript, string PathToClient, string server, string appname, string cubename, string login, string password):base(calcscript, PathToClient, server, appname, cubename, login, password) { }
+        public MaxlCalculation(string calcscript, string PathToClient, ConnectionData credentials) :base(calcscript, PathToClient, credentials) { }
 
         public override void Execute()
         {
@@ -80,11 +74,11 @@ namespace CSCLauncher
             
             string content = reader.ReadToEnd();
             reader.Close();
-            content = content.Replace(@"$admin$", login);
-            content = content.Replace(@"$password$", password);
-            content = content.Replace(@"$server$", server);
-            content = content.Replace(@"$appname$", appname);
-            content = content.Replace(@"$cubename$", cubename);
+            content = content.Replace(@"$admin$", credentials.login);
+            content = content.Replace(@"$password$", credentials.password);
+            content = content.Replace(@"$server$", credentials.server);
+            content = content.Replace(@"$appname$", credentials.appname);
+            content = content.Replace(@"$cubename$", credentials.cubename);
             /*Del comments from code*/
             content = content.Replace(@"$calcscript$", Regex.Replace(calcscript, @"(?s)\s*\/\/.+?\n|\/\*.*?\*\/\s*", String.Empty));
 
@@ -115,7 +109,7 @@ namespace CSCLauncher
 
     public class EssCMDCalculation : Calculation
     {
-        public EssCMDCalculation(string calcscript, string PathToClient, string server, string appname, string cubename, string login, string password) : base(calcscript, PathToClient, server, appname, cubename, login, password) { }
+        public EssCMDCalculation(string calcscript, string PathToClient, ConnectionData credentials) : base(calcscript, PathToClient, credentials) { }
 
         public override void Execute()
         {
@@ -138,7 +132,7 @@ namespace CSCLauncher
 
             //Place to think about - EssCMD need time to write log file
             if (!File.Exists(AppDomain.CurrentDomain.BaseDirectory + @"\Log\" + filename + ".log"))
-                Thread.Sleep(1000);
+                Thread.Sleep(2000);
 
             try
             {
@@ -149,11 +143,7 @@ namespace CSCLauncher
             }
             catch
             {
-                Thread.Sleep(1000);
-                using (StreamReader reader = new StreamReader(AppDomain.CurrentDomain.BaseDirectory + @"\Log\" + filename + ".log"))
-                {
-                    this.log = reader.ReadToEnd();
-                }
+                MessageBox.Show("Can't open log file");
             }
 
             Check_Status();
@@ -167,11 +157,11 @@ namespace CSCLauncher
                 content = reader.ReadToEnd();
             }
 
-            content = content.Replace(@"$admin$", login);
-            content = content.Replace(@"$password$", password);
-            content = content.Replace(@"$server$", server);
-            content = content.Replace(@"$appname$", appname);
-            content = content.Replace(@"$cubename$", cubename);
+            content = content.Replace(@"$admin$", credentials.login);
+            content = content.Replace(@"$password$", credentials.password);
+            content = content.Replace(@"$server$", credentials.server);
+            content = content.Replace(@"$appname$", credentials.appname);
+            content = content.Replace(@"$cubename$", credentials.cubename);
             content = content.Replace(@"$calcfile$", @"""" + AppDomain.CurrentDomain.BaseDirectory + @"\Log\" + filename + @".csc""");
             content = content.Replace(@"$logfile$", @"""" + AppDomain.CurrentDomain.BaseDirectory + @"\Log\" + filename + @".log""");
 

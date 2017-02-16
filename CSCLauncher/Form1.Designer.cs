@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.PathToClient_CB = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.MaxlSearchButton = new System.Windows.Forms.Button();
@@ -44,10 +45,10 @@
             this.linkLabel4 = new System.Windows.Forms.LinkLabel();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.SettingsPage = new System.Windows.Forms.TabPage();
+            this.ServerStatus_lbl = new System.Windows.Forms.Label();
+            this.Password_TB = new System.Windows.Forms.TextBox();
             this.Mode_LBL = new System.Windows.Forms.Label();
             this.Mode_CB = new System.Windows.Forms.ComboBox();
-            this.linkLabel5 = new System.Windows.Forms.LinkLabel();
-            this.Password_CB = new System.Windows.Forms.ComboBox();
             this.Login_CB = new System.Windows.Forms.ComboBox();
             this.label6 = new System.Windows.Forms.Label();
             this.ResultPage = new System.Windows.Forms.TabPage();
@@ -61,14 +62,22 @@
             this.Time = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.Calc_RTB = new System.Windows.Forms.RichTextBox();
             this.EssbaseClient_folderBD = new System.Windows.Forms.FolderBrowserDialog();
+            this.TextParams_check = new System.Windows.Forms.CheckBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.Credentials_panel = new System.Windows.Forms.Panel();
+            this.Example_panel = new System.Windows.Forms.Panel();
+            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.label8 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.SettingsPage.SuspendLayout();
             this.ResultPage.SuspendLayout();
+            this.Credentials_panel.SuspendLayout();
+            this.Example_panel.SuspendLayout();
             this.SuspendLayout();
             // 
             // PathToClient_CB
             // 
-            this.PathToClient_CB.Location = new System.Drawing.Point(165, 33);
+            this.PathToClient_CB.Location = new System.Drawing.Point(184, 33);
             this.PathToClient_CB.Name = "PathToClient_CB";
             this.PathToClient_CB.Size = new System.Drawing.Size(232, 20);
             this.PathToClient_CB.TabIndex = 0;
@@ -77,7 +86,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(34, 36);
+            this.label1.Location = new System.Drawing.Point(53, 36);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(129, 13);
             this.label1.TabIndex = 1;
@@ -85,7 +94,7 @@
             // 
             // MaxlSearchButton
             // 
-            this.MaxlSearchButton.Location = new System.Drawing.Point(403, 31);
+            this.MaxlSearchButton.Location = new System.Drawing.Point(422, 31);
             this.MaxlSearchButton.Name = "MaxlSearchButton";
             this.MaxlSearchButton.Size = new System.Drawing.Size(75, 23);
             this.MaxlSearchButton.TabIndex = 2;
@@ -96,7 +105,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(34, 87);
+            this.label2.Location = new System.Drawing.Point(-3, 9);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(38, 13);
             this.label2.TabIndex = 3;
@@ -105,7 +114,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(34, 112);
+            this.label3.Location = new System.Drawing.Point(-3, 34);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(55, 13);
             this.label3.TabIndex = 4;
@@ -114,7 +123,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(34, 135);
+            this.label4.Location = new System.Drawing.Point(-3, 57);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(61, 13);
             this.label4.TabIndex = 5;
@@ -123,7 +132,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(34, 160);
+            this.label5.Location = new System.Drawing.Point(-3, 82);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(33, 13);
             this.label5.TabIndex = 6;
@@ -132,7 +141,7 @@
             // Server_CB
             // 
             this.Server_CB.FormattingEnabled = true;
-            this.Server_CB.Location = new System.Drawing.Point(165, 84);
+            this.Server_CB.Location = new System.Drawing.Point(128, 6);
             this.Server_CB.Name = "Server_CB";
             this.Server_CB.Size = new System.Drawing.Size(232, 21);
             this.Server_CB.Sorted = true;
@@ -142,7 +151,7 @@
             // Appname_CB
             // 
             this.Appname_CB.FormattingEnabled = true;
-            this.Appname_CB.Location = new System.Drawing.Point(165, 109);
+            this.Appname_CB.Location = new System.Drawing.Point(128, 31);
             this.Appname_CB.Name = "Appname_CB";
             this.Appname_CB.Size = new System.Drawing.Size(232, 21);
             this.Appname_CB.Sorted = true;
@@ -152,7 +161,7 @@
             // Cubename_CB
             // 
             this.Cubename_CB.FormattingEnabled = true;
-            this.Cubename_CB.Location = new System.Drawing.Point(165, 132);
+            this.Cubename_CB.Location = new System.Drawing.Point(128, 54);
             this.Cubename_CB.Name = "Cubename_CB";
             this.Cubename_CB.Size = new System.Drawing.Size(232, 21);
             this.Cubename_CB.Sorted = true;
@@ -162,7 +171,7 @@
             // linkLabel1
             // 
             this.linkLabel1.AutoSize = true;
-            this.linkLabel1.Location = new System.Drawing.Point(400, 87);
+            this.linkLabel1.Location = new System.Drawing.Point(363, 9);
             this.linkLabel1.Name = "linkLabel1";
             this.linkLabel1.Size = new System.Drawing.Size(14, 13);
             this.linkLabel1.TabIndex = 22;
@@ -173,7 +182,7 @@
             // linkLabel2
             // 
             this.linkLabel2.AutoSize = true;
-            this.linkLabel2.Location = new System.Drawing.Point(400, 112);
+            this.linkLabel2.Location = new System.Drawing.Point(363, 34);
             this.linkLabel2.Name = "linkLabel2";
             this.linkLabel2.Size = new System.Drawing.Size(14, 13);
             this.linkLabel2.TabIndex = 23;
@@ -184,7 +193,7 @@
             // linkLabel3
             // 
             this.linkLabel3.AutoSize = true;
-            this.linkLabel3.Location = new System.Drawing.Point(400, 135);
+            this.linkLabel3.Location = new System.Drawing.Point(363, 57);
             this.linkLabel3.Name = "linkLabel3";
             this.linkLabel3.Size = new System.Drawing.Size(14, 13);
             this.linkLabel3.TabIndex = 24;
@@ -195,7 +204,7 @@
             // linkLabel4
             // 
             this.linkLabel4.AutoSize = true;
-            this.linkLabel4.Location = new System.Drawing.Point(400, 160);
+            this.linkLabel4.Location = new System.Drawing.Point(363, 82);
             this.linkLabel4.Name = "linkLabel4";
             this.linkLabel4.Size = new System.Drawing.Size(14, 13);
             this.linkLabel4.TabIndex = 25;
@@ -218,26 +227,16 @@
             // 
             // SettingsPage
             // 
+            this.SettingsPage.Controls.Add(this.Credentials_panel);
+            this.SettingsPage.Controls.Add(this.label7);
+            this.SettingsPage.Controls.Add(this.TextParams_check);
+            this.SettingsPage.Controls.Add(this.ServerStatus_lbl);
             this.SettingsPage.Controls.Add(this.Mode_LBL);
             this.SettingsPage.Controls.Add(this.Mode_CB);
-            this.SettingsPage.Controls.Add(this.linkLabel5);
             this.SettingsPage.Controls.Add(this.PathToClient_CB);
-            this.SettingsPage.Controls.Add(this.linkLabel4);
             this.SettingsPage.Controls.Add(this.label1);
-            this.SettingsPage.Controls.Add(this.linkLabel3);
             this.SettingsPage.Controls.Add(this.MaxlSearchButton);
-            this.SettingsPage.Controls.Add(this.linkLabel2);
-            this.SettingsPage.Controls.Add(this.label2);
-            this.SettingsPage.Controls.Add(this.linkLabel1);
-            this.SettingsPage.Controls.Add(this.label3);
-            this.SettingsPage.Controls.Add(this.Password_CB);
-            this.SettingsPage.Controls.Add(this.label4);
-            this.SettingsPage.Controls.Add(this.Login_CB);
-            this.SettingsPage.Controls.Add(this.label5);
-            this.SettingsPage.Controls.Add(this.Cubename_CB);
-            this.SettingsPage.Controls.Add(this.label6);
-            this.SettingsPage.Controls.Add(this.Appname_CB);
-            this.SettingsPage.Controls.Add(this.Server_CB);
+            this.SettingsPage.Controls.Add(this.Example_panel);
             this.SettingsPage.Location = new System.Drawing.Point(4, 22);
             this.SettingsPage.Name = "SettingsPage";
             this.SettingsPage.Padding = new System.Windows.Forms.Padding(3);
@@ -246,10 +245,26 @@
             this.SettingsPage.Text = "Settings";
             this.SettingsPage.UseVisualStyleBackColor = true;
             // 
+            // ServerStatus_lbl
+            // 
+            this.ServerStatus_lbl.AutoSize = true;
+            this.ServerStatus_lbl.Location = new System.Drawing.Point(12, 87);
+            this.ServerStatus_lbl.Name = "ServerStatus_lbl";
+            this.ServerStatus_lbl.Size = new System.Drawing.Size(0, 13);
+            this.ServerStatus_lbl.TabIndex = 30;
+            // 
+            // Password_TB
+            // 
+            this.Password_TB.Location = new System.Drawing.Point(128, 106);
+            this.Password_TB.Name = "Password_TB";
+            this.Password_TB.Size = new System.Drawing.Size(232, 20);
+            this.Password_TB.TabIndex = 29;
+            this.Password_TB.UseSystemPasswordChar = true;
+            // 
             // Mode_LBL
             // 
             this.Mode_LBL.AutoSize = true;
-            this.Mode_LBL.Location = new System.Drawing.Point(34, 61);
+            this.Mode_LBL.Location = new System.Drawing.Point(53, 61);
             this.Mode_LBL.Name = "Mode_LBL";
             this.Mode_LBL.Size = new System.Drawing.Size(34, 13);
             this.Mode_LBL.TabIndex = 28;
@@ -260,39 +275,16 @@
             this.Mode_CB.Items.AddRange(new object[] {
             "EssCMD",
             "MaxL"});
-            this.Mode_CB.Location = new System.Drawing.Point(165, 58);
+            this.Mode_CB.Location = new System.Drawing.Point(184, 58);
             this.Mode_CB.Name = "Mode_CB";
             this.Mode_CB.Size = new System.Drawing.Size(232, 21);
             this.Mode_CB.Sorted = true;
             this.Mode_CB.TabIndex = 27;
             // 
-            // linkLabel5
-            // 
-            this.linkLabel5.AutoSize = true;
-            this.linkLabel5.Location = new System.Drawing.Point(400, 184);
-            this.linkLabel5.Name = "linkLabel5";
-            this.linkLabel5.Size = new System.Drawing.Size(14, 13);
-            this.linkLabel5.TabIndex = 26;
-            this.linkLabel5.TabStop = true;
-            this.linkLabel5.Text = "X";
-            this.linkLabel5.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel5_LinkClicked);
-            // 
-            // Password_CB
-            // 
-            this.Password_CB.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
-            this.Password_CB.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.Password_CB.FormattingEnabled = true;
-            this.Password_CB.Location = new System.Drawing.Point(165, 181);
-            this.Password_CB.Name = "Password_CB";
-            this.Password_CB.Size = new System.Drawing.Size(232, 21);
-            this.Password_CB.Sorted = true;
-            this.Password_CB.TabIndex = 21;
-            this.Password_CB.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Password_CB_KeyDown);
-            // 
             // Login_CB
             // 
             this.Login_CB.FormattingEnabled = true;
-            this.Login_CB.Location = new System.Drawing.Point(165, 157);
+            this.Login_CB.Location = new System.Drawing.Point(128, 79);
             this.Login_CB.Name = "Login_CB";
             this.Login_CB.Size = new System.Drawing.Size(232, 21);
             this.Login_CB.Sorted = true;
@@ -302,7 +294,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(34, 184);
+            this.label6.Location = new System.Drawing.Point(-3, 106);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(53, 13);
             this.label6.TabIndex = 7;
@@ -406,6 +398,76 @@
             this.Calc_RTB.Text = "";
             this.Calc_RTB.WordWrap = false;
             // 
+            // TextParams_check
+            // 
+            this.TextParams_check.AutoSize = true;
+            this.TextParams_check.Location = new System.Drawing.Point(218, 87);
+            this.TextParams_check.Name = "TextParams_check";
+            this.TextParams_check.Size = new System.Drawing.Size(15, 14);
+            this.TextParams_check.TabIndex = 31;
+            this.TextParams_check.UseVisualStyleBackColor = true;
+            this.TextParams_check.CheckedChanged += new System.EventHandler(this.TextParams_check_CheckedChanged);
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(53, 87);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(148, 13);
+            this.label7.TabIndex = 32;
+            this.label7.Text = "Get parameters from comment";
+            // 
+            // Credentials_panel
+            // 
+            this.Credentials_panel.Controls.Add(this.Password_TB);
+            this.Credentials_panel.Controls.Add(this.Server_CB);
+            this.Credentials_panel.Controls.Add(this.Appname_CB);
+            this.Credentials_panel.Controls.Add(this.label6);
+            this.Credentials_panel.Controls.Add(this.Cubename_CB);
+            this.Credentials_panel.Controls.Add(this.label5);
+            this.Credentials_panel.Controls.Add(this.Login_CB);
+            this.Credentials_panel.Controls.Add(this.label4);
+            this.Credentials_panel.Controls.Add(this.linkLabel4);
+            this.Credentials_panel.Controls.Add(this.label3);
+            this.Credentials_panel.Controls.Add(this.linkLabel1);
+            this.Credentials_panel.Controls.Add(this.linkLabel3);
+            this.Credentials_panel.Controls.Add(this.label2);
+            this.Credentials_panel.Controls.Add(this.linkLabel2);
+            this.Credentials_panel.Location = new System.Drawing.Point(56, 106);
+            this.Credentials_panel.Name = "Credentials_panel";
+            this.Credentials_panel.Size = new System.Drawing.Size(441, 134);
+            this.Credentials_panel.TabIndex = 33;
+            // 
+            // Example_panel
+            // 
+            this.Example_panel.Controls.Add(this.label8);
+            this.Example_panel.Controls.Add(this.richTextBox1);
+            this.Example_panel.Location = new System.Drawing.Point(56, 107);
+            this.Example_panel.Name = "Example_panel";
+            this.Example_panel.Size = new System.Drawing.Size(441, 136);
+            this.Example_panel.TabIndex = 34;
+            this.Example_panel.Visible = false;
+            // 
+            // richTextBox1
+            // 
+            this.richTextBox1.Location = new System.Drawing.Point(0, 34);
+            this.richTextBox1.Name = "richTextBox1";
+            this.richTextBox1.ReadOnly = true;
+            this.richTextBox1.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None;
+            this.richTextBox1.Size = new System.Drawing.Size(441, 100);
+            this.richTextBox1.TabIndex = 0;
+            this.richTextBox1.Text = "/*\nserver:<servername>\nappname:<appname>\ncubename:<cubename>\nlogin:<login>\npasswo" +
+    "rd:<password>\n*/";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(-3, 18);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(60, 13);
+            this.label8.TabIndex = 1;
+            this.label8.Text = "EXAMPLE:";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -413,6 +475,7 @@
             this.ClientSize = new System.Drawing.Size(648, 578);
             this.Controls.Add(this.tabControl1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainForm";
             this.Text = "CSCLauncher";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
@@ -421,6 +484,10 @@
             this.SettingsPage.ResumeLayout(false);
             this.SettingsPage.PerformLayout();
             this.ResultPage.ResumeLayout(false);
+            this.Credentials_panel.ResumeLayout(false);
+            this.Credentials_panel.PerformLayout();
+            this.Example_panel.ResumeLayout(false);
+            this.Example_panel.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -452,13 +519,19 @@
         private System.Windows.Forms.ColumnHeader Time;
         private System.Windows.Forms.Button Del_button;
         private System.Windows.Forms.Button CopyCalc_button;
-        private System.Windows.Forms.LinkLabel linkLabel5;
-        private System.Windows.Forms.ComboBox Password_CB;
         private System.Windows.Forms.ComboBox Login_CB;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.ComboBox Mode_CB;
         private System.Windows.Forms.Label Mode_LBL;
         private System.Windows.Forms.FolderBrowserDialog EssbaseClient_folderBD;
+        private System.Windows.Forms.TextBox Password_TB;
+        private System.Windows.Forms.Label ServerStatus_lbl;
+        private System.Windows.Forms.Panel Credentials_panel;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.CheckBox TextParams_check;
+        private System.Windows.Forms.Panel Example_panel;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.RichTextBox richTextBox1;
     }
 }
 

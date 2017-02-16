@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
 
@@ -39,14 +40,14 @@ namespace CSCLauncher
         const int WM_SETTEXT = 12;
         const int WM_GETTEXT = 13;
 
-        private Hotkeys.GlobalHotkey ghk;
+        private GlobalHotkey ghk;
         private List<Calculation> Calcs = new List<Calculation>();
         private int cnt;
 
         public MainForm()
         {
             InitializeComponent();
-            ghk = new Hotkeys.GlobalHotkey(Hotkeys.Constants.ALT, Keys.L, this);
+            ghk = new GlobalHotkey(Constants.ALT, Keys.L, this);
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -55,7 +56,6 @@ namespace CSCLauncher
             cnt = 0;
             LoadSettings();
             CreateFolders();
-            
         }
 
         private void CreateFolders()
@@ -93,61 +93,124 @@ namespace CSCLauncher
 
             this.Activate();
             this.Show();
-            //this.WindowState = FormWindowState.Normal;
+
+
+
             DialogResult RunCalcDialog = MessageBox.Show("Run calc script?", "Are you sure?", MessageBoxButtons.YesNo);
             if (RunCalcDialog == DialogResult.Yes)
             {
-                cnt++;
+                ConnectionData credentials;
 
-                if (Mode_CB.SelectedIndex == 0) //If turned on EssCMD mode
-                    Calcs.Add(new EssCMDCalculation(builder.ToString(), PathToClient_CB.Text, Server_CB.Text, Appname_CB.Text, Cubename_CB.Text, Login_CB.Text, Password_CB.Text));
-                else //MaxL mode
-                    Calcs.Add(new MaxlCalculation(builder.ToString(), PathToClient_CB.Text, Server_CB.Text, Appname_CB.Text, Cubename_CB.Text, Login_CB.Text, Password_CB.Text));
-
-
-                Calcs_LV.Items.Add(new ListViewItem(cnt.ToString()));
-                Calcs_LV.Items[Calcs_LV.Items.Count - 1].SubItems.Add("Running");
-                Calcs_LV.Items[Calcs_LV.Items.Count - 1].SubItems.Add("-");
-
-                BackgroundWorker bw = new BackgroundWorker();
-
-                // turn on progress reporting
-                bw.WorkerReportsProgress = true;
-
-                // background thread work
-                bw.DoWork += new DoWorkEventHandler(
-                delegate (object o, DoWorkEventArgs args)
+                //If we get params from comments
+                if (TextParams_check.Checked)
                 {
-                    BackgroundWorker b = o as BackgroundWorker;
-                    // run calculation
-                    Calcs[Calcs.Count - 1].Execute();
-                    
-                });
-
-                // Job complete handler
-                bw.RunWorkerCompleted += new RunWorkerCompletedEventHandler(
-                delegate (object o, RunWorkerCompletedEventArgs args)
+                    credentials = new ConnectionData();
+                    credentials = ParseParams(builder.ToString());
+                }
+                else
                 {
-                    if (Calcs_LV.SelectedItems.Count > 0)
-                    {
-                        Log_RTB.Text = Calcs[Convert.ToInt32(Calcs_LV.SelectedItems[0].Text) - 1].log;
-                    }
+                    if (!(string.IsNullOrEmpty(Server_CB.Text)
+                        && string.IsNullOrEmpty(Appname_CB.Text)
+                        && string.IsNullOrEmpty(Cubename_CB.Text)
+                        && string.IsNullOrEmpty(Login_CB.Text)
+                        && string.IsNullOrEmpty(Password_TB.Text)))
+                        credentials = new ConnectionData(Server_CB.Text, Appname_CB.Text, Cubename_CB.Text, Login_CB.Text, Password_TB.Text);
+                    else
+                        credentials = new ConnectionData(false);
+                }
 
-                    foreach (ListViewItem lvi in Calcs_LV.Items)
-                    {
-                        lvi.SubItems[1].Text = Calcs[Convert.ToInt32(lvi.SubItems[0].Text) - 1].status;
-                        lvi.SubItems[2].Text = Calcs[Convert.ToInt32(lvi.SubItems[0].Text) - 1].time;
-                    }
-                });
+                if (credentials.success)
 
-                bw.RunWorkerAsync();
-                tabControl1.SelectTab(1);
+                {
+
+                    cnt++;
+                    //If turned on EssCMD mode
+                    if (Mode_CB.SelectedIndex == 0)
+                        Calcs.Add(new EssCMDCalculation(builder.ToString(), PathToClient_CB.Text, credentials));
+                    else //MaxL mode
+                        Calcs.Add(new MaxlCalculation(builder.ToString(), PathToClient_CB.Text, credentials));
+
+
+                    Calcs_LV.Items.Add(new ListViewItem(cnt.ToString()));
+                    Calcs_LV.Items[Calcs_LV.Items.Count - 1].SubItems.Add("Running");
+                    Calcs_LV.Items[Calcs_LV.Items.Count - 1].SubItems.Add("-");
+
+                    BackgroundWorker bw = new BackgroundWorker();
+
+                    // turn on progress reporting
+                    bw.WorkerReportsProgress = true;
+
+                    // background thread work
+                    bw.DoWork += new DoWorkEventHandler(
+                    delegate (object o, DoWorkEventArgs args)
+                    {
+                        BackgroundWorker b = o as BackgroundWorker;
+                        // run calculation
+                        Calcs[Calcs.Count - 1].Execute();
+
+                    });
+
+                    // Job complete handler
+                    bw.RunWorkerCompleted += new RunWorkerCompletedEventHandler(
+                    delegate (object o, RunWorkerCompletedEventArgs args)
+                    {
+                        if (Calcs_LV.SelectedItems.Count > 0)
+                        {
+                            Log_RTB.Text = Calcs[Convert.ToInt32(Calcs_LV.SelectedItems[0].Text) - 1].log;
+                        }
+
+                        foreach (ListViewItem lvi in Calcs_LV.Items)
+                        {
+                            lvi.SubItems[1].Text = Calcs[Convert.ToInt32(lvi.SubItems[0].Text) - 1].status;
+                            lvi.SubItems[2].Text = Calcs[Convert.ToInt32(lvi.SubItems[0].Text) - 1].time;
+                        }
+                    });
+
+                    bw.RunWorkerAsync();
+                    tabControl1.SelectTab(1);
+
+                }
+                else
+                {
+                    MessageBox.Show("Invalid parameters!");
+                }
             }
         }
 
+        private ConnectionData ParseParams (string calcscript)
+        {
+            MatchCollection matches = Regex.Matches(calcscript, @"(?s)\s*\/\/.+?\n|\/\*.*?\*\/\s*");
+            string parameters = "";
+            foreach (Match match in matches)
+            {
+                if (match.Value.ToLower().Contains("server:") 
+                    && match.Value.ToLower().Contains("appname:")
+                    && match.Value.ToLower().Contains("cubename:")
+                    && match.Value.ToLower().Contains("login:")
+                    && match.Value.ToLower().Contains("password:"))
+                {
+                    parameters = match.Value;
+                    break;
+                }
+            }
+
+            if (parameters == "")
+                return new ConnectionData(false);
+            else
+            {
+                string server = Regex.Match(parameters, @"(?i)server:([^\s]*)").Value.Split(':')[1];
+                string appname = Regex.Match(parameters, @"(?i)appname:([^\s]*)").Value.Split(':')[1];
+                string cubename = Regex.Match(parameters, @"(?i)cubename:([^\s]*)").Value.Split(':')[1];
+                string login = Regex.Match(parameters, @"(?i)login:([^\s]*)").Value.Split(':')[1];
+                string password = Regex.Match(parameters, @"(?i)password:([^\s]*)").Value.Split(':')[1];
+
+                return new ConnectionData(server,appname,cubename,login,password);
+            }
+        }
+        
         protected override void WndProc(ref Message m)
         {
-            if (m.Msg == Hotkeys.Constants.WM_HOTKEY_MSG_ID)
+            if (m.Msg == Constants.WM_HOTKEY_MSG_ID)
                 HandleHotkey();
             base.WndProc(ref m);
         }
@@ -160,25 +223,16 @@ namespace CSCLauncher
             }
         }
 
-
-        private void CopyLog_button_Click(object sender, EventArgs e)
-        {
-            if (Log_RTB.Text != null)
-                Clipboard.SetText(Log_RTB.Text);
-        }
-
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             ArrayList serverlist = new ArrayList(this.Server_CB.Items);
             ArrayList applist = new ArrayList(this.Appname_CB.Items);
             ArrayList cubelist = new ArrayList(this.Cubename_CB.Items);
             ArrayList loginlist = new ArrayList(this.Login_CB.Items);
-            ArrayList passwordlist = new ArrayList(this.Password_CB.Items);
             Properties.Settings.Default.Server = serverlist;
             Properties.Settings.Default.App = applist;
             Properties.Settings.Default.Cube = cubelist;
             Properties.Settings.Default.Login = loginlist ;
-            Properties.Settings.Default.Password = passwordlist;
             Properties.Settings.Default.ClientPath = PathToClient_CB.Text;
             Properties.Settings.Default.Mode = Mode_CB.SelectedIndex;
             Properties.Settings.Default.Save();
@@ -201,16 +255,15 @@ namespace CSCLauncher
             { 
                 this.Login_CB.Items.AddRange(Properties.Settings.Default.Login.ToArray());
             }
-            if (Properties.Settings.Default.Password != null)
-            { 
-                this.Password_CB.Items.AddRange(Properties.Settings.Default.Password.ToArray());
-            }
             if (Properties.Settings.Default.ClientPath != null)
             {
                 PathToClient_CB.Text = Properties.Settings.Default.ClientPath;
             }
-
-            Mode_CB.SelectedIndex = Properties.Settings.Default.Mode;
+            if (Properties.Settings.Default.Mode != 0
+            && Properties.Settings.Default.Mode != 1)
+                Mode_CB.SelectedIndex = 0;
+            else
+                Mode_CB.SelectedIndex = Properties.Settings.Default.Mode;
         }
 
         private void Server_CB_KeyDown(object sender, KeyEventArgs e)
@@ -241,14 +294,6 @@ namespace CSCLauncher
                 Login_CB.Items.Add(Login_CB.Text);
         }
 
-        private void Password_CB_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Enter)
-                if (!Password_CB.Items.Contains(Password_CB.Text) && Password_CB.Text != "")
-                Password_CB.Items.Add(Password_CB.Text);
-        }
-
-
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             if (Server_CB.Text != "")
@@ -274,12 +319,6 @@ namespace CSCLauncher
         {
             if (Login_CB.Text != "")
                 Login_CB.Items.Remove(Login_CB.SelectedItem);
-        }
-
-        private void linkLabel5_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            if (Password_CB.Text != "")
-                Password_CB.Items.Remove(Password_CB.SelectedItem);
         }
 
         private void Calcs_LV_SelectedIndexChanged(object sender, EventArgs e)
@@ -308,8 +347,28 @@ namespace CSCLauncher
 
         private void CopyCalc_button_Click(object sender, EventArgs e)
         {
-            if (Calc_RTB.Text != null)
+            if (!string.IsNullOrEmpty(Calc_RTB.Text))
                 Clipboard.SetText(Calc_RTB.Text);
+        }
+
+        private void CopyLog_button_Click(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrEmpty(Log_RTB.Text))
+                Clipboard.SetText(Log_RTB.Text);
+        }
+
+        private void TextParams_check_CheckedChanged(object sender, EventArgs e)
+        {
+            if (TextParams_check.Checked)
+            { 
+                Credentials_panel.Hide();
+                Example_panel.Show();
+            }
+            else
+            { 
+                Credentials_panel.Show();
+                Example_panel.Hide();
+            }
         }
     }
 
