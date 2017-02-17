@@ -29,8 +29,8 @@ namespace CSCLauncher
             this.credentials.login = credentials.login;
             this.credentials.password = credentials.password;
             this.log = "";
-            this.status = "";
-            this.time = "";
+            this.status = "Running";
+            this.time = "-";
         }
 
         public virtual void Execute() {}
@@ -131,22 +131,70 @@ namespace CSCLauncher
 
 
             //Place to think about - EssCMD need time to write log file
-            if (!File.Exists(AppDomain.CurrentDomain.BaseDirectory + @"\Log\" + filename + ".log"))
-                Thread.Sleep(2000);
+            //if (!File.Exists(AppDomain.CurrentDomain.BaseDirectory + @"Log\" + filename + ".log"))
+            //Thread.Sleep(10000);
+
+            string logfile = AppDomain.CurrentDomain.BaseDirectory + @"Log\" + filename + ".log";
+
+            int time = 20;
+            while (time >=0)
+            {
+                Thread.Sleep(1000);
+                time = time - 1;
+                if (File.Exists(logfile) && !IsFileLocked(logfile))
+                {
+                    using (StreamReader reader = new StreamReader(logfile))
+                    {
+                        this.log = reader.ReadToEnd();
+                    }
+
+                    //FileStream stream = new FileStream(logfile, FileMode.Open,FileAccess.Read, FileShare.ReadWrite | FileShare.Delete);
+                    //byte[] array = new byte[stream.Length];
+                    //stream.Read(array, 0, array.Length);
+
+                    //this.log = System.Text.Encoding.Default.GetString(array);
+
+                    break;
+                }
+
+                if (time == 0)
+                {
+                    MessageBox.Show("Can't open log file - " + logfile);
+                }
+                
+            }
+            Check_Status();
+
+
+
+        }
+
+        protected bool IsFileLocked(string path)
+        {
+            FileInfo file = new FileInfo(path);
+
+            FileStream stream = null;
 
             try
             {
-                using (StreamReader reader = new StreamReader(AppDomain.CurrentDomain.BaseDirectory + @"\Log\" + filename + ".log"))
-                {
-                    this.log = reader.ReadToEnd();
-                }
+                stream = file.Open(FileMode.Open, FileAccess.Read, FileShare.None);
             }
-            catch
+            catch (IOException)
             {
-                MessageBox.Show("Can't open log file");
+                //the file is unavailable because it is:
+                //still being written to
+                //or being processed by another thread
+                //or does not exist (has already been processed)
+                return true;
+            }
+            finally
+            {
+                if (stream != null)
+                    stream.Close();
             }
 
-            Check_Status();
+            //file is not locked
+            return false;
         }
 
         private void Create_Template(string filename)
@@ -162,8 +210,8 @@ namespace CSCLauncher
             content = content.Replace(@"$server$", credentials.server);
             content = content.Replace(@"$appname$", credentials.appname);
             content = content.Replace(@"$cubename$", credentials.cubename);
-            content = content.Replace(@"$calcfile$", @"""" + AppDomain.CurrentDomain.BaseDirectory + @"\Log\" + filename + @".csc""");
-            content = content.Replace(@"$logfile$", @"""" + AppDomain.CurrentDomain.BaseDirectory + @"\Log\" + filename + @".log""");
+            content = content.Replace(@"$calcfile$", @"""" + AppDomain.CurrentDomain.BaseDirectory + @"Log\" + filename + @".csc""");
+            content = content.Replace(@"$logfile$", @"""" + AppDomain.CurrentDomain.BaseDirectory + @"Log\" + filename + @".log""");
 
             //esscmd script creation
             using (StreamWriter writer = new StreamWriter(AppDomain.CurrentDomain.BaseDirectory + @"\Log\" + filename + ".escr", false, Encoding.ASCII))
@@ -176,6 +224,8 @@ namespace CSCLauncher
             {
                 writer.Write(calcscript);
             }
+
+            //File.Create(AppDomain.CurrentDomain.BaseDirectory + @"\Log\" + filename + ".log");
 
         }
 

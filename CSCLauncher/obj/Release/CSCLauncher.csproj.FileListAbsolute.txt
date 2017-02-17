@@ -17,3 +17,4 @@ C:\Users\rochirov\Source\Repos\CSCLauncher\CSCLauncher\obj\Release\CSCLauncher.c
 C:\Users\rochirov\Source\Repos\CSCLauncher\bin\CSCLauncher.exe.config
 C:\Users\rochirov\Source\Repos\CSCLauncher\bin\CSCLauncher.exe
 C:\Users\rochirov\Source\Repos\CSCLauncher\bin\CSCLauncher.pdb
+C:\Users\rochirov\Source\Repos\CSCLauncher\CSCLauncher\obj\Release\CSCLauncher.csprojResolveAssemblyReference.cache

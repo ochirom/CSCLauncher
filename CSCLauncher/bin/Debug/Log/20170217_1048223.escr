@@ -1,0 +1,6 @@
+LOGIN "mow03-hyp01dl" "admin" "Welcome1";
+SELECT "Console" "Console";
+OUTPUT 1 "C:\Users\rochirov\Source\Repos\CSCLauncher\CSCLauncher\bin\Debug\Log\20170217_1048223.log";
+RUNCALC 3 "C:\Users\rochirov\Source\Repos\CSCLauncher\CSCLauncher\bin\Debug\Log\20170217_1048223.csc";
+OUTPUT 3;
+EXIT;
