@@ -94,87 +94,100 @@ namespace CSCLauncher
             this.Activate();
             this.Show();
 
+            bool CorrectPath;
 
+            if (Mode_CB.SelectedIndex == 0)
+                CorrectPath = File.Exists(PathToClient_CB.Text + "\\startEsscmd.cmd");
+            else
+                CorrectPath = File.Exists(PathToClient_CB.Text + "\\startMaxl.cmd");
 
             DialogResult RunCalcDialog = MessageBox.Show("Run calc script?", "Are you sure?", MessageBoxButtons.YesNo);
-            if (RunCalcDialog == DialogResult.Yes)
+            if (CorrectPath)
             {
-                ConnectionData credentials;
-
-                //If we get params from comments
-                if (TextParams_check.Checked)
+                if (RunCalcDialog == DialogResult.Yes)
                 {
-                    credentials = new ConnectionData();
-                    credentials = ParseParams(builder.ToString());
-                }
-                else
-                {
-                    if (!(string.IsNullOrEmpty(Server_CB.Text)
-                        && string.IsNullOrEmpty(Appname_CB.Text)
-                        && string.IsNullOrEmpty(Cubename_CB.Text)
-                        && string.IsNullOrEmpty(Login_CB.Text)
-                        && string.IsNullOrEmpty(Password_TB.Text)))
-                        credentials = new ConnectionData(Server_CB.Text, Appname_CB.Text, Cubename_CB.Text, Login_CB.Text, Password_TB.Text);
-                    else
-                        credentials = new ConnectionData(false);
-                }
+                    ConnectionData credentials;
 
-                if (credentials.success)
-
-                {
-
-                    cnt++;
-                    //If turned on EssCMD mode
-                    if (Mode_CB.SelectedIndex == 0)
-                        Calcs.Add(new EssCMDCalculation(builder.ToString(), PathToClient_CB.Text, credentials));
-                    else //MaxL mode
-                        Calcs.Add(new MaxlCalculation(builder.ToString(), PathToClient_CB.Text, credentials));
-
-
-                    Calcs_LV.Items.Add(new ListViewItem(cnt.ToString()));
-                    Calcs_LV.Items[Calcs_LV.Items.Count - 1].SubItems.Add("Running");
-                    Calcs_LV.Items[Calcs_LV.Items.Count - 1].SubItems.Add("-");
-
-                    BackgroundWorker bw = new BackgroundWorker();
-
-                    // turn on progress reporting
-                    bw.WorkerReportsProgress = true;
-
-                    // background thread work
-                    bw.DoWork += new DoWorkEventHandler(
-                    delegate (object o, DoWorkEventArgs args)
+                    //If we get params from comments
+                    if (TextParams_check.Checked)
                     {
-                        BackgroundWorker b = o as BackgroundWorker;
+                        credentials = new ConnectionData();
+                        credentials = ParseParams(builder.ToString());
+                    }
+                    else
+                    {
+                        if (!(string.IsNullOrEmpty(Server_CB.Text)
+                            && string.IsNullOrEmpty(Appname_CB.Text)
+                            && string.IsNullOrEmpty(Cubename_CB.Text)
+                            && string.IsNullOrEmpty(Login_CB.Text)
+                            && string.IsNullOrEmpty(Password_TB.Text)))
+                            credentials = new ConnectionData(Server_CB.Text, Appname_CB.Text, Cubename_CB.Text, Login_CB.Text, Password_TB.Text);
+                        else
+                            credentials = new ConnectionData(false);
+                    }
+
+                    if (credentials.success)
+
+                    {
+
+                        cnt++;
+                        //If turned on EssCMD mode
+                        if (Mode_CB.SelectedIndex == 0)
+                            Calcs.Add(new EssCMDCalculation(builder.ToString(), PathToClient_CB.Text, credentials));
+                        else //MaxL mode
+                            Calcs.Add(new MaxlCalculation(builder.ToString(), PathToClient_CB.Text, credentials));
+
+
+                        Calcs_LV.Items.Add(new ListViewItem(cnt.ToString()));
+                        Calcs_LV.Items[Calcs_LV.Items.Count - 1].SubItems.Add("Running");
+                        Calcs_LV.Items[Calcs_LV.Items.Count - 1].SubItems.Add("-");
+
+                        BackgroundWorker bw = new BackgroundWorker();
+
+                        // turn on progress reporting
+                        bw.WorkerReportsProgress = true;
+
+                        // background thread work
+                        bw.DoWork += new DoWorkEventHandler(
+                        delegate (object o, DoWorkEventArgs args)
+                        {
+                            BackgroundWorker b = o as BackgroundWorker;
                         // run calculation
                         Calcs[Calcs.Count - 1].Execute();
 
-                    });
+                        });
 
-                    // Job complete handler
-                    bw.RunWorkerCompleted += new RunWorkerCompletedEventHandler(
-                    delegate (object o, RunWorkerCompletedEventArgs args)
+                        // Job complete handler
+                        bw.RunWorkerCompleted += new RunWorkerCompletedEventHandler(
+                        delegate (object o, RunWorkerCompletedEventArgs args)
+                        {
+                            if (Calcs_LV.SelectedItems.Count > 0)
+                            {
+                                Log_RTB.Text = Calcs[Convert.ToInt32(Calcs_LV.SelectedItems[0].Text) - 1].log;
+                            }
+
+                            foreach (ListViewItem lvi in Calcs_LV.Items)
+                            {
+                                lvi.SubItems[1].Text = Calcs[Convert.ToInt32(lvi.SubItems[0].Text) - 1].status;
+                                lvi.SubItems[2].Text = Calcs[Convert.ToInt32(lvi.SubItems[0].Text) - 1].time;
+                            }
+                        });
+
+                        bw.RunWorkerAsync();
+                        tabControl1.SelectTab(1);
+
+                    }
+                    else
                     {
-                        if (Calcs_LV.SelectedItems.Count > 0)
-                        {
-                            Log_RTB.Text = Calcs[Convert.ToInt32(Calcs_LV.SelectedItems[0].Text) - 1].log;
-                        }
-
-                        foreach (ListViewItem lvi in Calcs_LV.Items)
-                        {
-                            lvi.SubItems[1].Text = Calcs[Convert.ToInt32(lvi.SubItems[0].Text) - 1].status;
-                            lvi.SubItems[2].Text = Calcs[Convert.ToInt32(lvi.SubItems[0].Text) - 1].time;
-                        }
-                    });
-
-                    bw.RunWorkerAsync();
-                    tabControl1.SelectTab(1);
-
-                }
-                else
-                {
-                    MessageBox.Show("Invalid parameters!");
+                        MessageBox.Show("Invalid parameters!");
+                    }
                 }
             }
+            else
+            {
+                MessageBox.Show("Incorrect path to EssbaseClient!");
+            }
+
         }
 
         private ConnectionData ParseParams (string calcscript)

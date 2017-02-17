@@ -123,46 +123,26 @@ namespace CSCLauncher
 
             Create_Template(filename);
 
-            cmd.StartInfo.FileName = PathToClient + @"\startEsscmd.cmd";
-            cmd.StartInfo.Arguments = @" """ + AppDomain.CurrentDomain.BaseDirectory + @"\Log\" + filename + @".escr""";
-
+            //cmd.StartInfo.WorkingDirectory = PathToClient;
+            cmd.StartInfo.FileName = PathToClient + "\\startEsscmd.cmd";
+            cmd.StartInfo.Arguments = @" """ + AppDomain.CurrentDomain.BaseDirectory + @"Log\" + filename + @".escr""";
             cmd.Start();
+            cmd.WaitForExit();
             cmd.Close();
-
-
-            //Place to think about - EssCMD need time to write log file
-            //if (!File.Exists(AppDomain.CurrentDomain.BaseDirectory + @"Log\" + filename + ".log"))
-            //Thread.Sleep(10000);
 
             string logfile = AppDomain.CurrentDomain.BaseDirectory + @"Log\" + filename + ".log";
 
-            int time = 20;
-            while (time >=0)
+            try { 
+            using (StreamReader reader = new StreamReader(logfile))
             {
-                Thread.Sleep(1000);
-                time = time - 1;
-                if (File.Exists(logfile) && !IsFileLocked(logfile))
-                {
-                    using (StreamReader reader = new StreamReader(logfile))
-                    {
-                        this.log = reader.ReadToEnd();
-                    }
-
-                    //FileStream stream = new FileStream(logfile, FileMode.Open,FileAccess.Read, FileShare.ReadWrite | FileShare.Delete);
-                    //byte[] array = new byte[stream.Length];
-                    //stream.Read(array, 0, array.Length);
-
-                    //this.log = System.Text.Encoding.Default.GetString(array);
-
-                    break;
-                }
-
-                if (time == 0)
-                {
-                    MessageBox.Show("Can't open log file - " + logfile);
-                }
-                
+                this.log = reader.ReadToEnd();
             }
+            }
+            catch
+            {
+                MessageBox.Show("Can't open log file");
+            }
+
             Check_Status();
 
 
