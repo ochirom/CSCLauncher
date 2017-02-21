@@ -45,10 +45,6 @@
             this.linkLabel4 = new System.Windows.Forms.LinkLabel();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.SettingsPage = new System.Windows.Forms.TabPage();
-            this.Credentials_panel = new System.Windows.Forms.Panel();
-            this.Password_TB = new System.Windows.Forms.TextBox();
-            this.label6 = new System.Windows.Forms.Label();
-            this.Login_CB = new System.Windows.Forms.ComboBox();
             this.label7 = new System.Windows.Forms.Label();
             this.TextParams_check = new System.Windows.Forms.CheckBox();
             this.ServerStatus_lbl = new System.Windows.Forms.Label();
@@ -56,7 +52,11 @@
             this.Mode_CB = new System.Windows.Forms.ComboBox();
             this.Example_panel = new System.Windows.Forms.Panel();
             this.label8 = new System.Windows.Forms.Label();
-            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.Example_RTB = new System.Windows.Forms.RichTextBox();
+            this.Credentials_panel = new System.Windows.Forms.Panel();
+            this.Password_TB = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.Login_CB = new System.Windows.Forms.ComboBox();
             this.ResultPage = new System.Windows.Forms.TabPage();
             this.CopyCalc_button = new System.Windows.Forms.Button();
             this.Del_button = new System.Windows.Forms.Button();
@@ -68,10 +68,13 @@
             this.Time = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.Calc_RTB = new System.Windows.Forms.RichTextBox();
             this.EssbaseClient_folderBD = new System.Windows.Forms.FolderBrowserDialog();
+            this.LogClear_btn = new System.Windows.Forms.Button();
+            this.App = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.Cube = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tabControl1.SuspendLayout();
             this.SettingsPage.SuspendLayout();
-            this.Credentials_panel.SuspendLayout();
             this.Example_panel.SuspendLayout();
+            this.Credentials_panel.SuspendLayout();
             this.ResultPage.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -146,6 +149,7 @@
             this.Server_CB.Size = new System.Drawing.Size(232, 21);
             this.Server_CB.Sorted = true;
             this.Server_CB.TabIndex = 17;
+            this.Server_CB.TextChanged += new System.EventHandler(this.Rebuild_example);
             this.Server_CB.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Server_CB_KeyDown);
             // 
             // Appname_CB
@@ -156,6 +160,7 @@
             this.Appname_CB.Size = new System.Drawing.Size(232, 21);
             this.Appname_CB.Sorted = true;
             this.Appname_CB.TabIndex = 18;
+            this.Appname_CB.TextChanged += new System.EventHandler(this.Rebuild_example);
             this.Appname_CB.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Appname_CB_KeyDown);
             // 
             // Cubename_CB
@@ -166,6 +171,7 @@
             this.Cubename_CB.Size = new System.Drawing.Size(232, 21);
             this.Cubename_CB.Sorted = true;
             this.Cubename_CB.TabIndex = 19;
+            this.Cubename_CB.TextChanged += new System.EventHandler(this.Rebuild_example);
             this.Cubename_CB.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Cubename_CB_KeyDown);
             // 
             // linkLabel1
@@ -227,7 +233,6 @@
             // 
             // SettingsPage
             // 
-            this.SettingsPage.Controls.Add(this.Credentials_panel);
             this.SettingsPage.Controls.Add(this.label7);
             this.SettingsPage.Controls.Add(this.TextParams_check);
             this.SettingsPage.Controls.Add(this.ServerStatus_lbl);
@@ -237,6 +242,7 @@
             this.SettingsPage.Controls.Add(this.label1);
             this.SettingsPage.Controls.Add(this.MaxlSearchButton);
             this.SettingsPage.Controls.Add(this.Example_panel);
+            this.SettingsPage.Controls.Add(this.Credentials_panel);
             this.SettingsPage.Location = new System.Drawing.Point(4, 22);
             this.SettingsPage.Name = "SettingsPage";
             this.SettingsPage.Padding = new System.Windows.Forms.Padding(3);
@@ -244,54 +250,6 @@
             this.SettingsPage.TabIndex = 0;
             this.SettingsPage.Text = "Settings";
             this.SettingsPage.UseVisualStyleBackColor = true;
-            // 
-            // Credentials_panel
-            // 
-            this.Credentials_panel.Controls.Add(this.Password_TB);
-            this.Credentials_panel.Controls.Add(this.Server_CB);
-            this.Credentials_panel.Controls.Add(this.Appname_CB);
-            this.Credentials_panel.Controls.Add(this.label6);
-            this.Credentials_panel.Controls.Add(this.Cubename_CB);
-            this.Credentials_panel.Controls.Add(this.label5);
-            this.Credentials_panel.Controls.Add(this.Login_CB);
-            this.Credentials_panel.Controls.Add(this.label4);
-            this.Credentials_panel.Controls.Add(this.linkLabel4);
-            this.Credentials_panel.Controls.Add(this.label3);
-            this.Credentials_panel.Controls.Add(this.linkLabel1);
-            this.Credentials_panel.Controls.Add(this.linkLabel3);
-            this.Credentials_panel.Controls.Add(this.label2);
-            this.Credentials_panel.Controls.Add(this.linkLabel2);
-            this.Credentials_panel.Location = new System.Drawing.Point(56, 106);
-            this.Credentials_panel.Name = "Credentials_panel";
-            this.Credentials_panel.Size = new System.Drawing.Size(441, 134);
-            this.Credentials_panel.TabIndex = 33;
-            // 
-            // Password_TB
-            // 
-            this.Password_TB.Location = new System.Drawing.Point(128, 106);
-            this.Password_TB.Name = "Password_TB";
-            this.Password_TB.Size = new System.Drawing.Size(232, 20);
-            this.Password_TB.TabIndex = 29;
-            this.Password_TB.UseSystemPasswordChar = true;
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(-3, 106);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(53, 13);
-            this.label6.TabIndex = 7;
-            this.label6.Text = "Password";
-            // 
-            // Login_CB
-            // 
-            this.Login_CB.FormattingEnabled = true;
-            this.Login_CB.Location = new System.Drawing.Point(128, 79);
-            this.Login_CB.Name = "Login_CB";
-            this.Login_CB.Size = new System.Drawing.Size(232, 21);
-            this.Login_CB.Sorted = true;
-            this.Login_CB.TabIndex = 20;
-            this.Login_CB.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Login_CB_KeyDown);
             // 
             // label7
             // 
@@ -310,7 +268,6 @@
             this.TextParams_check.Size = new System.Drawing.Size(15, 14);
             this.TextParams_check.TabIndex = 31;
             this.TextParams_check.UseVisualStyleBackColor = true;
-            this.TextParams_check.CheckedChanged += new System.EventHandler(this.TextParams_check_CheckedChanged);
             // 
             // ServerStatus_lbl
             // 
@@ -343,35 +300,85 @@
             // Example_panel
             // 
             this.Example_panel.Controls.Add(this.label8);
-            this.Example_panel.Controls.Add(this.richTextBox1);
-            this.Example_panel.Location = new System.Drawing.Point(56, 107);
+            this.Example_panel.Controls.Add(this.Example_RTB);
+            this.Example_panel.Location = new System.Drawing.Point(56, 255);
             this.Example_panel.Name = "Example_panel";
             this.Example_panel.Size = new System.Drawing.Size(441, 136);
             this.Example_panel.TabIndex = 34;
-            this.Example_panel.Visible = false;
             // 
             // label8
             // 
             this.label8.AutoSize = true;
             this.label8.Location = new System.Drawing.Point(-3, 18);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(60, 13);
+            this.label8.Size = new System.Drawing.Size(67, 13);
             this.label8.TabIndex = 1;
-            this.label8.Text = "EXAMPLE:";
+            this.label8.Text = "TEMPLATE:";
             // 
-            // richTextBox1
+            // Example_RTB
             // 
-            this.richTextBox1.Location = new System.Drawing.Point(0, 34);
-            this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.ReadOnly = true;
-            this.richTextBox1.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None;
-            this.richTextBox1.Size = new System.Drawing.Size(441, 100);
-            this.richTextBox1.TabIndex = 0;
-            this.richTextBox1.Text = "/*\nserver:<servername>\nappname:<appname>\ncubename:<cubename>\nlogin:<login>\npasswo" +
+            this.Example_RTB.Location = new System.Drawing.Point(0, 34);
+            this.Example_RTB.Name = "Example_RTB";
+            this.Example_RTB.ReadOnly = true;
+            this.Example_RTB.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None;
+            this.Example_RTB.Size = new System.Drawing.Size(441, 100);
+            this.Example_RTB.TabIndex = 0;
+            this.Example_RTB.Text = "/*\nserver:<servername>\nappname:<appname>\ncubename:<cubename>\nlogin:<login>\npasswo" +
     "rd:<password>\n*/";
+            // 
+            // Credentials_panel
+            // 
+            this.Credentials_panel.Controls.Add(this.Password_TB);
+            this.Credentials_panel.Controls.Add(this.Server_CB);
+            this.Credentials_panel.Controls.Add(this.Appname_CB);
+            this.Credentials_panel.Controls.Add(this.label6);
+            this.Credentials_panel.Controls.Add(this.Cubename_CB);
+            this.Credentials_panel.Controls.Add(this.label5);
+            this.Credentials_panel.Controls.Add(this.Login_CB);
+            this.Credentials_panel.Controls.Add(this.label4);
+            this.Credentials_panel.Controls.Add(this.linkLabel4);
+            this.Credentials_panel.Controls.Add(this.label3);
+            this.Credentials_panel.Controls.Add(this.linkLabel1);
+            this.Credentials_panel.Controls.Add(this.linkLabel3);
+            this.Credentials_panel.Controls.Add(this.label2);
+            this.Credentials_panel.Controls.Add(this.linkLabel2);
+            this.Credentials_panel.Location = new System.Drawing.Point(56, 106);
+            this.Credentials_panel.Name = "Credentials_panel";
+            this.Credentials_panel.Size = new System.Drawing.Size(441, 134);
+            this.Credentials_panel.TabIndex = 33;
+            // 
+            // Password_TB
+            // 
+            this.Password_TB.Location = new System.Drawing.Point(128, 106);
+            this.Password_TB.Name = "Password_TB";
+            this.Password_TB.Size = new System.Drawing.Size(232, 20);
+            this.Password_TB.TabIndex = 29;
+            this.Password_TB.UseSystemPasswordChar = true;
+            this.Password_TB.TextChanged += new System.EventHandler(this.Rebuild_example);
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(-3, 106);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(53, 13);
+            this.label6.TabIndex = 7;
+            this.label6.Text = "Password";
+            // 
+            // Login_CB
+            // 
+            this.Login_CB.FormattingEnabled = true;
+            this.Login_CB.Location = new System.Drawing.Point(128, 79);
+            this.Login_CB.Name = "Login_CB";
+            this.Login_CB.Size = new System.Drawing.Size(232, 21);
+            this.Login_CB.Sorted = true;
+            this.Login_CB.TabIndex = 20;
+            this.Login_CB.TextChanged += new System.EventHandler(this.Rebuild_example);
+            this.Login_CB.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Login_CB_KeyDown);
             // 
             // ResultPage
             // 
+            this.ResultPage.Controls.Add(this.LogClear_btn);
             this.ResultPage.Controls.Add(this.CopyCalc_button);
             this.ResultPage.Controls.Add(this.Del_button);
             this.ResultPage.Controls.Add(this.Log_RTB);
@@ -399,11 +406,11 @@
             // 
             // Del_button
             // 
-            this.Del_button.Location = new System.Drawing.Point(203, 6);
+            this.Del_button.Location = new System.Drawing.Point(293, 6);
             this.Del_button.Name = "Del_button";
-            this.Del_button.Size = new System.Drawing.Size(42, 23);
+            this.Del_button.Size = new System.Drawing.Size(48, 23);
             this.Del_button.TabIndex = 19;
-            this.Del_button.Text = "Del";
+            this.Del_button.Text = "Del job";
             this.Del_button.UseVisualStyleBackColor = true;
             this.Del_button.Click += new System.EventHandler(this.Del_button_Click);
             // 
@@ -434,12 +441,14 @@
             // 
             this.Calcs_LV.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.Num,
+            this.App,
+            this.Cube,
             this.Status,
             this.Time});
             this.Calcs_LV.GridLines = true;
             this.Calcs_LV.Location = new System.Drawing.Point(6, 6);
             this.Calcs_LV.Name = "Calcs_LV";
-            this.Calcs_LV.Size = new System.Drawing.Size(191, 207);
+            this.Calcs_LV.Size = new System.Drawing.Size(281, 207);
             this.Calcs_LV.TabIndex = 2;
             this.Calcs_LV.UseCompatibleStateImageBehavior = false;
             this.Calcs_LV.View = System.Windows.Forms.View.Details;
@@ -448,10 +457,12 @@
             // Num
             // 
             this.Num.Text = "Num";
+            this.Num.Width = 37;
             // 
             // Status
             // 
             this.Status.Text = "Status";
+            this.Status.Width = 63;
             // 
             // Time
             // 
@@ -460,13 +471,31 @@
             // Calc_RTB
             // 
             this.Calc_RTB.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.Calc_RTB.Location = new System.Drawing.Point(274, 6);
+            this.Calc_RTB.Location = new System.Drawing.Point(347, 6);
             this.Calc_RTB.Name = "Calc_RTB";
             this.Calc_RTB.ReadOnly = true;
-            this.Calc_RTB.Size = new System.Drawing.Size(339, 207);
+            this.Calc_RTB.Size = new System.Drawing.Size(266, 207);
             this.Calc_RTB.TabIndex = 0;
             this.Calc_RTB.Text = "";
             this.Calc_RTB.WordWrap = false;
+            // 
+            // LogClear_btn
+            // 
+            this.LogClear_btn.Location = new System.Drawing.Point(212, 219);
+            this.LogClear_btn.Name = "LogClear_btn";
+            this.LogClear_btn.Size = new System.Drawing.Size(75, 23);
+            this.LogClear_btn.TabIndex = 21;
+            this.LogClear_btn.Text = "Clear logs";
+            this.LogClear_btn.UseVisualStyleBackColor = true;
+            this.LogClear_btn.Click += new System.EventHandler(this.LogClear_btn_Click);
+            // 
+            // App
+            // 
+            this.App.Text = "App";
+            // 
+            // Cube
+            // 
+            this.Cube.Text = "Cube";
             // 
             // MainForm
             // 
@@ -484,10 +513,10 @@
             this.tabControl1.ResumeLayout(false);
             this.SettingsPage.ResumeLayout(false);
             this.SettingsPage.PerformLayout();
-            this.Credentials_panel.ResumeLayout(false);
-            this.Credentials_panel.PerformLayout();
             this.Example_panel.ResumeLayout(false);
             this.Example_panel.PerformLayout();
+            this.Credentials_panel.ResumeLayout(false);
+            this.Credentials_panel.PerformLayout();
             this.ResultPage.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -532,7 +561,10 @@
         private System.Windows.Forms.CheckBox TextParams_check;
         private System.Windows.Forms.Panel Example_panel;
         private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.RichTextBox richTextBox1;
+        private System.Windows.Forms.RichTextBox Example_RTB;
+        private System.Windows.Forms.Button LogClear_btn;
+        private System.Windows.Forms.ColumnHeader App;
+        private System.Windows.Forms.ColumnHeader Cube;
     }
 }
 

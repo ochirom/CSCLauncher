@@ -3,3 +3,4 @@ execute calculation '
 $calcscript$
 ' on $appname$.$cubename$;
 logout ;
+exit;

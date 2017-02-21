@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Security.Cryptography;
 using System.IO;
 using System.Collections;
 using System.Collections.Generic;
@@ -139,6 +140,8 @@ namespace CSCLauncher
 
 
                         Calcs_LV.Items.Add(new ListViewItem(cnt.ToString()));
+                        Calcs_LV.Items[Calcs_LV.Items.Count - 1].SubItems.Add(credentials.appname);
+                        Calcs_LV.Items[Calcs_LV.Items.Count - 1].SubItems.Add(credentials.cubename);
                         Calcs_LV.Items[Calcs_LV.Items.Count - 1].SubItems.Add("Running");
                         Calcs_LV.Items[Calcs_LV.Items.Count - 1].SubItems.Add("-");
 
@@ -168,8 +171,8 @@ namespace CSCLauncher
 
                             foreach (ListViewItem lvi in Calcs_LV.Items)
                             {
-                                lvi.SubItems[1].Text = Calcs[Convert.ToInt32(lvi.SubItems[0].Text) - 1].status;
-                                lvi.SubItems[2].Text = Calcs[Convert.ToInt32(lvi.SubItems[0].Text) - 1].time;
+                                lvi.SubItems[3].Text = Calcs[Convert.ToInt32(lvi.SubItems[0].Text) - 1].status;
+                                lvi.SubItems[4].Text = Calcs[Convert.ToInt32(lvi.SubItems[0].Text) - 1].time;
                             }
                         });
 
@@ -370,17 +373,57 @@ namespace CSCLauncher
                 Clipboard.SetText(Log_RTB.Text);
         }
 
-        private void TextParams_check_CheckedChanged(object sender, EventArgs e)
+        private void Rebuild_example(object sender, EventArgs e)
         {
-            if (TextParams_check.Checked)
-            { 
-                Credentials_panel.Hide();
-                Example_panel.Show();
-            }
-            else
-            { 
-                Credentials_panel.Show();
-                Example_panel.Hide();
+            string server = "", appname = "", cubename = "", login = "", password = "";
+
+            server = String.IsNullOrEmpty(Server_CB.Text) ?  "<server>" : Server_CB.Text;
+            appname = String.IsNullOrEmpty(Appname_CB.Text) ? "<appname>" : Appname_CB.Text;
+            cubename = String.IsNullOrEmpty(Cubename_CB.Text) ? "<cubename>" : Cubename_CB.Text;
+            login = String.IsNullOrEmpty(Login_CB.Text) ? "<login>" : Login_CB.Text;
+            password = String.IsNullOrEmpty(Password_TB.Text) ? "<password>" : Password_TB.Text;
+
+            Example_RTB.Text = "/*" + Environment.NewLine 
+                + "server:" + server + Environment.NewLine
+                + "appname:" + appname + Environment.NewLine
+                + "cubename:" + cubename + Environment.NewLine
+                + "login:" + login + Environment.NewLine
+                + "password:" + password + Environment.NewLine
+                + "*/";
+        }
+
+        private void LogClear_btn_Click(object sender, EventArgs e)
+        {
+            DialogResult ClearLogDialog = MessageBox.Show(@"Clear all logs? (\Log directory will be cleared too)", "Are you sure?", MessageBoxButtons.YesNo);
+            if (ClearLogDialog == DialogResult.Yes)
+            {
+                bool NoProcessingItems = true;
+
+                foreach (Calculation calc in Calcs)
+                {
+                    if (calc.status.Contains("Running"))
+                    {
+                        NoProcessingItems = false;
+                        break;
+                    }
+                }
+
+                if (NoProcessingItems)
+                {
+                    Calcs_LV.Items.Clear();
+                    Calcs.Clear();
+                    MessageBox.Show(Calcs.Count.ToString());
+                    cnt = 0;
+                    if (Directory.Exists(AppDomain.CurrentDomain.BaseDirectory + @"\Log\"))
+                    {
+                        Directory.Delete(AppDomain.CurrentDomain.BaseDirectory + @"\Log\", true);
+                        Directory.CreateDirectory(AppDomain.CurrentDomain.BaseDirectory + @"\Log\");
+                    }
+                    else
+                        Directory.CreateDirectory(AppDomain.CurrentDomain.BaseDirectory + @"\Log\");
+                }
+                else
+                    MessageBox.Show(@"Can't clear \Log directory while calculation is running");
             }
         }
     }

@@ -43,7 +43,8 @@ namespace CSCLauncher
 
         public override void Execute()
         {
-            string filename = DateTime.Now.ToString("yyyyMMdd_HHmmssf");
+            string filename = DateTime.Now.ToString("yyyyMMdd_HHmmssf")
+                + "_" + credentials.appname + "_" + credentials.cubename;
 
             Process cmd = new Process();
             cmd.StartInfo.RedirectStandardInput = true;
@@ -113,7 +114,8 @@ namespace CSCLauncher
 
         public override void Execute()
         {
-            string filename = DateTime.Now.ToString("yyyyMMdd_HHmmssf");
+            string filename = DateTime.Now.ToString("yyyyMMdd_HHmmssf")
+                + "_" + credentials.appname + "_" + credentials.cubename;
 
             Process cmd = new Process();
             cmd.StartInfo.RedirectStandardInput = true;
@@ -123,7 +125,6 @@ namespace CSCLauncher
 
             Create_Template(filename);
 
-            //cmd.StartInfo.WorkingDirectory = PathToClient;
             cmd.StartInfo.FileName = PathToClient + "\\startEsscmd.cmd";
             cmd.StartInfo.Arguments = @" """ + AppDomain.CurrentDomain.BaseDirectory + @"Log\" + filename + @".escr""";
             cmd.Start();
@@ -132,11 +133,12 @@ namespace CSCLauncher
 
             string logfile = AppDomain.CurrentDomain.BaseDirectory + @"Log\" + filename + ".log";
 
-            try { 
-            using (StreamReader reader = new StreamReader(logfile))
+            try
             {
-                this.log = reader.ReadToEnd();
-            }
+                using (StreamReader reader = new StreamReader(logfile))
+                {
+                    this.log = reader.ReadToEnd();
+                }
             }
             catch
             {
@@ -147,34 +149,6 @@ namespace CSCLauncher
 
 
 
-        }
-
-        protected bool IsFileLocked(string path)
-        {
-            FileInfo file = new FileInfo(path);
-
-            FileStream stream = null;
-
-            try
-            {
-                stream = file.Open(FileMode.Open, FileAccess.Read, FileShare.None);
-            }
-            catch (IOException)
-            {
-                //the file is unavailable because it is:
-                //still being written to
-                //or being processed by another thread
-                //or does not exist (has already been processed)
-                return true;
-            }
-            finally
-            {
-                if (stream != null)
-                    stream.Close();
-            }
-
-            //file is not locked
-            return false;
         }
 
         private void Create_Template(string filename)
